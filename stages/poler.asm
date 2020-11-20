@@ -42,12 +42,13 @@
     ldr     r0,=#ROMADDR_POLER_FUNC_END+1
     bx      r0
     .pool
-    .endarea
 
     ; New script for checkpoint 4
 @chkpnt_4_script:
 
     .incbin "stages/scripts/poler-script-4.bin"
+    
+    .endarea
 
     .org org(@chkpnt_4_script)+0xC
     dw      org(poler_chkpnt_4)
