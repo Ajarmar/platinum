@@ -5,6 +5,7 @@
     .include "new-checkpoints.asm"
     .include "skip-funcs.asm"
     .include "stages/intro.asm"
+    .include "stages/panter.asm"
     .include "stages/poler.asm"
     .include "stages/cmdroom.asm"
 
