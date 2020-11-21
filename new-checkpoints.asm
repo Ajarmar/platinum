@@ -16,6 +16,11 @@ poler_chkpnt_4:
     .dw     0x24E87F
     .dw     0x01CFFF
     .dw     0x1
+hyleg_chkpnt_4:
+    .dw     0
+    .dw     0x1A6000
+    .dw     0x037FFF
+    .dw     0x1
 cmdroom_chkpnt_A:
     .dw     0
     .dw     0x0B6000

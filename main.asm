@@ -7,6 +7,7 @@
     .include "stages/intro.asm"
     .include "stages/panter.asm"
     .include "stages/poler.asm"
+    .include "stages/hyleg.asm"
     .include "stages/cmdroom.asm"
 
     .close
