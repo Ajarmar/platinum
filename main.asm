@@ -6,6 +6,7 @@
     .include "skip-funcs.asm"
     .include "stages/intro.asm"
     .include "stages/panter.asm"
+    .include "stages/phoenix.asm"
     .include "stages/poler.asm"
     .include "stages/hyleg.asm"
     .include "stages/cmdroom.asm"
