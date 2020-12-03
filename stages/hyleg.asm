@@ -6,10 +6,10 @@
 
     .org ROMADDR_HYLEG_HOOK
 
-    bl      REG_HYLEG_CHKPNT_4          ; Hook
+    bl      REG_HYLEG_CHKPNT_NEW        ; Hook
 
-    .org REG_HYLEG_CHKPNT_4
-    .area REG_HYLEG_CHKPNT_4_AREA
+    .org REG_HYLEG_CHKPNT_NEW
+    .area REG_HYLEG_CHKPNT_NEW_AREA
     
     push    r4
     ldr     r4,=#ADDR_STAGE_STATE       ; Check that a checkpoint actually was loaded
@@ -17,13 +17,27 @@
     cmp     r4,#0x0
     bne     @@subr_end
     cmp     r0,#0x4
-    bne     @@subr_end
+    bne     @@chkpnt_5
     mov     r0,r1
     add     r0,#0x10
     ldr     r1,=#org(@chkpnt_4_script)
     bl      ROMADDR_SET_SCRIPT_ADDRS
     mov     r0,#0xA
     ldr     r1,=#ADDR_STAGE_STATE
+    strb    r0,[r1]
+    b       @@subr_end
+@@chkpnt_5:
+    cmp     r0,#0x5
+    bne     @@subr_end
+    mov     r0,r1
+    add     r0,#0x10
+    ldr     r1,=#org(@chkpnt_5_script)
+    bl      ROMADDR_SET_SCRIPT_ADDRS
+    mov     r0,#0xA
+    ldr     r1,=#ADDR_STAGE_STATE
+    strb    r0,[r1]
+    ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
+    mov     r0,#0x4
     strb    r0,[r1]
 @@subr_end:
     pop     r4
@@ -36,6 +50,10 @@
 @chkpnt_4_script:
 
     .incbin "stages/scripts/hyleg-script-4.bin"
+
+@chkpnt_5_script:
+
+    .db 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
     
     .endarea
 
@@ -53,3 +71,8 @@
     .db     1, 4            ; Lose control: Set skippable, set checkpoint to 4
     .org 0x08327F86
     .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
+    ; Post-boss script
+    .org 0x0832805E
+    .db     1, 5            ; Fade in: Set skippable, set checkpoint to 5
+    .org 0x0832813E
+    .db     2, 3            ; Fade out: Set not skippable, set checkpoint to 3
