@@ -26,7 +26,7 @@
     strb    r0,[r1]
     ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
     mov     r0,#0x4
-    strb    r0,[r1] ; 08331A20
+    strb    r0,[r1]
 @@subr_end:
     ldr     r0,=#ROMADDR_NA1_FUNC_END+1
     bx      r0
