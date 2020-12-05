@@ -65,6 +65,11 @@ kuwagust_ciel_spawn:
     .dw     0x147000
     .dw     0x0B1FFF
     .dw     0x1
+harpuia_chkpnt_4:
+    .dw     0
+    .dw     0x1D4800
+    .dw     0x061FFF
+    .dw     0x1
 cmdroom_chkpnt_A:
     .dw     0
     .dw     0x0B6000
