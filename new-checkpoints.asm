@@ -50,6 +50,21 @@ hyleg_chkpnt_4:
     .dw     0x1A6000
     .dw     0x037FFF
     .dw     0x1
+kuwagust_chkpnt_6:
+    .dw     0
+    .dw     0x141000
+    .dw     0x0B1FFF
+    .dw     0x1
+kuwagust_chkpnt_8:
+    .dw     0
+    .dw     0x0EEA80
+    .dw     0x101FFF
+    .dw     0x1
+kuwagust_ciel_spawn:
+    .db     0x6, 0x5, 0x2C, 0x0
+    .dw     0x147000
+    .dw     0x0B1FFF
+    .dw     0x1
 cmdroom_chkpnt_A:
     .dw     0
     .dw     0x0B6000

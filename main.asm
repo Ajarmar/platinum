@@ -10,6 +10,7 @@
     .include "stages/poler.asm"
     .include "stages/hyleg.asm"
     .include "stages/na1.asm"
+    .include "stages/kuwagust.asm"
     .include "stages/cmdroom.asm"
 
     .close
