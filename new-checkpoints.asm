@@ -70,6 +70,11 @@ harpuia_chkpnt_4:
     .dw     0x1D4800
     .dw     0x061FFF
     .dw     0x1
+burble_chkpnt_4:
+    .dw     0
+    .dw     0x20127F
+    .dw     0x01CFFF
+    .dw     0x1
 cmdroom_chkpnt_A:
     .dw     0
     .dw     0x0B6000

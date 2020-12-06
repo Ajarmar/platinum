@@ -12,6 +12,7 @@
     .include "stages/na1.asm"
     .include "stages/kuwagust.asm"
     .include "stages/harpuia.asm"
+    .include "stages/burble.asm"
     .include "stages/cmdroom.asm"
 
     .close
