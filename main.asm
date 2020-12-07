@@ -13,6 +13,7 @@
     .include "stages/kuwagust.asm"
     .include "stages/harpuia.asm"
     .include "stages/burble.asm"
+    .include "stages/leviathan.asm"
     .include "stages/cmdroom.asm"
 
     .close

@@ -75,6 +75,11 @@ burble_chkpnt_4:
     .dw     0x20127F
     .dw     0x01CFFF
     .dw     0x1
+leviathan_chkpnt_3:
+    .dw     0
+    .dw     0x211600
+    .dw     0x082FFF
+    .dw     0x1
 cmdroom_chkpnt_A:
     .dw     0
     .dw     0x0B6000
