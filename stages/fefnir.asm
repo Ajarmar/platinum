@@ -3,9 +3,9 @@
     ; Some restructuring in existing code to include the hook
     .org ROMADDR_FEFNIR_HOOK
 
-    beq     @@chkpnt_3
+    beq     @@chkpnt_2
     bl      REG_FEFNIR_CHKPNT_NEW            ; Hook
-@@chkpnt_3:
+@@chkpnt_2:
     mov     r0,r2
     add     r0,#0x10
     ldr     r1,=#0x0832C604
