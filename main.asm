@@ -15,6 +15,7 @@
     .include "stages/burble.asm"
     .include "stages/leviathan.asm"
     .include "stages/fefnir.asm"
+    .include "stages/na2.asm"
     .include "stages/cmdroom.asm"
 
     .close
