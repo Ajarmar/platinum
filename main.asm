@@ -14,6 +14,7 @@
     .include "stages/harpuia.asm"
     .include "stages/burble.asm"
     .include "stages/leviathan.asm"
+    .include "stages/fefnir.asm"
     .include "stages/cmdroom.asm"
 
     .close
