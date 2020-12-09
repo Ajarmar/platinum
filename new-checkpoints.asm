@@ -85,6 +85,11 @@ fefnir_chkpnt_3:
     .dw     0x198A7F
     .dw     0x025FFF
     .dw     0x1
+fefnirap_chkpnt_3:
+    .dw     0
+    .dw     0x0F3080
+    .dw     0x062FFF
+    .dw     0x1
 cmdroom_chkpnt_A:
     .dw     0
     .dw     0x0B6000
