@@ -17,6 +17,7 @@
     .include "stages/fefnir.asm"
     .include "stages/na2.asm"
     .include "stages/fefnirap.asm"
+    .include "stages/leviathanap.asm"
     .include "stages/cmdroom.asm"
 
     .close
