@@ -18,6 +18,7 @@
     .include "stages/na2.asm"
     .include "stages/fefnirap.asm"
     .include "stages/leviathanap.asm"
+    .include "stages/harpuiaap.asm"
     .include "stages/cmdroom.asm"
 
     .close

@@ -95,6 +95,11 @@ leviathanap_chkpnt_3:
     .dw     0x166000
     .dw     0x023FFF
     .dw     0x1
+harpuiaap_chkpnt_3:
+    .dw     0
+    .dw     0x0AD000
+    .dw     0x018FFF
+    .dw     0x1
 cmdroom_chkpnt_A:
     .dw     0
     .dw     0x0B6000
