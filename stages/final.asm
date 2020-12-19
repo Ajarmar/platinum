@@ -249,6 +249,9 @@
     .db     2, 5            ; Gain control: Set not skippable, set checkpoint to 5
     ; Elpizo phase 2
     .org 0x08330316
-    .db     1, 0xD          ; Lose control: Set skippable, set checkpoint to 0xC
+    .db     1, 0xD          ; Lose control: Set skippable, set checkpoint to 0xD
     .org 0x08330436
     .db     2, 5            ; Gain control: Set not skippable, set checkpoint to 5
+
+    .org 0x0833015E
+    .db     0x10

@@ -162,12 +162,26 @@
     .pool
 @script_14_BG_and_extra_args:
     push    r4,r5
+    ldrb    r1,[r2,#0x2]
+    lsr     r1,#0x4
+    cmp     r1,#0x1
+    bne     @@make_BG0_visible
+    ldr     r4,=#ADDR_BACKGROUNDS
+    ldrb    r1,[r4]
+    mov     r5,0xFE
+    and     r1,r5
+    strb    r1,[r4]
+    b       @@after_BG_thing
+@@make_BG0_visible:
     ldr     r4,=#ADDR_BACKGROUNDS
     ldrb    r1,[r4]
     mov     r5,0x1
     orr     r1,r5
     strb    r1,[r4]
+@@after_BG_thing:
     ldrb    r1,[r2,#0x2]
+    mov     r3,#0xF
+    and     r1,r3
     cmp     r1,#0x1
     bne     @@check_2
     ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
