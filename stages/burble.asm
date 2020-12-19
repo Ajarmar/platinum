@@ -58,6 +58,54 @@
     .org org(@chkpnt_4_script)+0x4
     .dw     org(burble_chkpnt_4)
 
+        ; Burble boss intro: Skip state 0, force Burble position to where he should appear
+    .org REG_BURBLE_BOSS_INTRO_HANDLING
+    .area REG_BURBLE_BOSS_INTRO_HANDLING_AREA
+@burble_state_0:
+    push    r14
+    ldr     r0,=#ADDR_STAGE_INDEX
+    ldrb    r0,[r0]
+    cmp     r0,#0x10
+    bne     @@in_burble_stage
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    bne     @@execute_normally
+    mov     r1,#0x1
+    b       @@cutscene_skipped
+@@in_burble_stage:
+    mov     r1,#0x0
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+@@execute_normally:
+    ldrb    r0,[r4,#0x12]
+    add     r0,#0x1
+    strb    r0,[r4,#0x12]
+    pop     r1
+    bx      r1
+@@cutscene_skipped:
+    ldr     r0,=#org(burble_boss_spawns)
+    lsl     r1,#0x3
+    add     r0,r0,r1
+    ldr     r1,[r0]
+    str     r1,[r4,#0x54]
+    ldr     r1,[r0,#0x4]
+    str     r1,[r4,#0x58]
+    mov     r0,#0x30
+    strb    r0,[r4,#0x12]
+    pop     r1
+    bx      r1
+    .pool
+
+    .endarea
+
+    ; Modify Burble intro state 0 subroutine in place
+    .org 0x080517FA
+    bl      REG_BURBLE_BOSS_INTRO_HANDLING
+    nop
+
     ; Modify scripts in place
     ; Stage start script
     .org 0x0832A8B6

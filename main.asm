@@ -19,6 +19,7 @@
     .include "stages/fefnirap.asm"
     .include "stages/leviathanap.asm"
     .include "stages/harpuiaap.asm"
+    .include "stages/final.asm"
     .include "stages/cmdroom.asm"
 
     .close

@@ -75,6 +75,11 @@ burble_chkpnt_4:
     .dw     0x20127F
     .dw     0x01CFFF
     .dw     0x1
+burble_boss_spawns:
+    .dw     0x20A000
+    .dw     0x01CFFF
+    .dw     0x075000
+    .dw     0x044FFF
 leviathan_chkpnt_3:
     .dw     0
     .dw     0x211600
@@ -100,6 +105,49 @@ harpuiaap_chkpnt_3:
     .dw     0x0AD000
     .dw     0x018FFF
     .dw     0x1
+final_chkpnt_6:
+    .dw     0
+    .dw     0x07B000
+    .dw     0x073FFF
+    .dw     0x1
+final_chkpnt_7:
+    .dw     0
+    .dw     0x073000
+    .dw     0x0C6FFF
+    .dw     0x1
+final_chkpnt_8:
+    .dw     0
+    .dw     0x073000
+    .dw     0x09DFFF
+    .dw     0x1
+final_chkpnt_9:
+    .dw     0
+    .dw     0x06F000
+    .dw     0x017DA8
+    .dw     0x1
+final_chkpnt_A:
+    .dw     0
+    .dw     0x0AC800
+    .dw     0x01BFFF
+    .dw     0x1
+final_chkpnt_B:
+    .dw     0
+    .dw     0x06C000
+    .dw     0x044FFF
+    .dw     0x1
+final_chkpnt_C:
+    .dw     0
+    .dw     0x02A000
+    .dw     0x01CFFF
+    .dw     0x1
+final_chkpnt_D:
+    .dw     0
+    .dw     0x02D000
+    .dw     0x01CFFF
+    .dw     0x1
+final_phoenix_boss_spawn:
+    .dw     0x07CDF7
+    .dw     0x0948AF
 cmdroom_chkpnt_A:
     .dw     0
     .dw     0x0B6000

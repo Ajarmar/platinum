@@ -59,10 +59,21 @@
     .org REG_PHOENIX_BOSS_INTRO_HANDLING
     .area REG_PHOENIX_BOSS_INTRO_HANDLING_AREA
 @phoenix_state_3:
+    ldr     r0,=#ADDR_STAGE_INDEX
+    ldrb    r0,[r0]
+    cmp     r0,#0x10
+    bne     @@in_phoenix_stage
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x1
+    bne     @@execute_normally
+    b       @@cutscene_skipped
+@@in_phoenix_stage:
     ldr     r0,=#ADDR_CHECKPOINT
     ldrb    r0,[r0]
     cmp     r0,#0x7
     blt     @@cutscene_skipped
+@@execute_normally:
     ldr     r0,=#0x08058120
     mov     r15,r0
 @@cutscene_skipped:
@@ -70,6 +81,22 @@
     strb    r0,[r6,#0x12]
     mov     r0,#0x0
     strb    r0,[r6,#0x13]
+    ldr     r0,=#ADDR_STAGE_INDEX
+    ldrb    r0,[r0]
+    cmp     r0,#0x10
+    bne     @@in_phoenix_stage_again
+    ldr     r1,=#org(final_phoenix_boss_spawn)
+    ldr     r0,[r1]
+    str     r0,[r6,#0x54]
+    ldr     r0,[r1,#0x4]
+    str     r0,[r6,#0x58]
+    ldrb    r0,[r6,#0xE]
+    add     r0,#0x1
+    strb    r0,[r6,#0xE]
+    mov     r0,r6
+    bl      0x080128D4
+    b       @phoenix_subr_end
+@@in_phoenix_stage_again:
     ldr     r0,=#org(phoenix_boss_spawns)
     ldr     r1,=#ADDR_CHECKPOINT
     ldrb    r1,[r1]

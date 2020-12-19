@@ -102,8 +102,11 @@
     bx      r4
     .pool
 @script_9_extra_args:
+    push    r14
     ldr     r0,[r4,#0xC]
     ldrb    r0,[r0,#0x2]
+    mov     r1,#0xF
+    and     r0,r1
     cmp     r0,#0x1
     bne     @@check_2
     ldr     r0,=#ADDR_CUTSCENE_SKIPPABLE
@@ -111,15 +114,36 @@
     mov     r2,#0x80
     orr     r1,r2
     strb    r1,[r0]
-    b       @@arg_3
+    b       @@elpizo_floor_flag
 @@check_2:
     cmp     r0,#0x2
-    bne     @@arg_3
+    bne     @@elpizo_floor_flag
     ldr     r0,=#ADDR_CUTSCENE_SKIPPABLE
     ldrb    r1,[r0]
     mov     r2,#0x7F
     and     r1,r2
     strb    r1,[r0]
+@@elpizo_floor_flag:
+    ldr     r0,[r4,#0xC]
+    ldrb    r0,[r0,#0x2]
+    lsr     r0,#0x4
+    cmp     r0,#0x0
+    beq     @@arg_3
+    ldr     r0,=#0x020301FC
+    ldr     r0,[r0]
+    ldr     r1,=#0x030201
+    str     r1,[r0,#0xC]
+    mov     r1,#0x1
+    strb    r1,[r0,#0x12] ; 080669E4 pantheon subr 08067024 shooting (7) 08067068 state 8
+    ;ldr     r0,=#0x02001000
+    ;ldr     r1,=#0x02D01C
+    ;add     r0,r0,r1
+    ;mov     r1,#0x1
+    ;strb    r1,[r0,#0x2]
+    ;mov     r0,#0x1E
+    ;mov     r1,#0x1D
+    ;ldr     r2,=#0x083200A8
+    ;bl      0x0800860C
 @@arg_3:
     ldr     r0,[r4,#0xC]
     ldrb    r0,[r0,#0x3]
@@ -133,7 +157,8 @@
     strb    r0,[r1]
 @@subr_end:
     mov     r0,#0x0
-    bx      r14
+    pop     r0
+    bx      r0
     .pool
 @script_14_BG_and_extra_args:
     push    r4,r5
