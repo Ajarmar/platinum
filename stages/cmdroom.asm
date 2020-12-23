@@ -26,12 +26,22 @@
     b       @@subr_end
 @@chkpnt_B:
     cmp     r0,#0xB
-    bne     @@subr_end
+    bne     @@chkpnt_C
     mov     r0,r4
     add     r0,#0x10
     ldr     r1,=#org(@chkpnt_B_script)
     bl      ROMADDR_SET_SCRIPT_ADDRS
     mov     r0,#0x1
+    ldr     r1,=#ADDR_STAGE_STATE
+    strb    r0,[r1]
+@@chkpnt_C:
+    cmp     r0,#0xC
+    bne     @@subr_end
+    mov     r0,r4
+    add     r0,#0x10
+    ldr     r1,=#org(@chkpnt_C_script)
+    bl      ROMADDR_SET_SCRIPT_ADDRS
+    mov     r0,#0xFF
     ldr     r1,=#ADDR_STAGE_STATE
     strb    r0,[r1]
 @@subr_end:
@@ -44,6 +54,8 @@
     .incbin "stages/scripts/cmdroom-script-A.bin"
 @chkpnt_B_script:
     .incbin "stages/scripts/cmdroom-script-B.bin"
+@chkpnt_C_script:
+    .incbin "stages/scripts/cmdroom-script-C.bin"
 
     .endarea
     
@@ -52,6 +64,8 @@
     dw      org(cmdroom_chkpnt_A)
     .org org(@chkpnt_B_script)+0x4
     dw      org(cmdroom_chkpnt_B)
+    .org org(@chkpnt_C_script)+0x4
+    dw      org(cmdroom_chkpnt_C)
 
     .org REG_CMDROOM_CIEL_HANDLING
     .area REG_CMDROOM_CIEL_HANDLING_AREA
@@ -195,6 +209,8 @@
 
     .org ROMADDR_CMDROOM_ELPIZO_HOOK
     bl      REG_CMDROOM_ELPIZO_HANDLING
+    .org ROMADDR_CMDROOM_ELPIZO_HOOK_2
+    bl      REG_CMDROOM_ELPIZO_HANDLING
 
 
     .org REG_CMDROOM_ELPIZO_HANDLING
@@ -231,7 +247,93 @@
     pop     r0
     bx      r0
     .pool
+@elpizo_state_2_13:
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+    ldr     r0,=#0x080CA082
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r5
+    bl      0x080128D4
+    mov     r0,r5
+    bl      0x08012C04
+    mov     r0,#0x1
+    strb    r0,[r5,#0x12]
+    ldrb    r0,[r5,#0xD]
+    add     r0,#0x1
+    strb    r0,[r5,#0xD]
+    b       @elpizo_subr_end
+    .pool
+@elpizo_subr_end:
+    ldr     r0,=#0x080CA19A
+    mov     r15,r0
+    .pool
     .endarea
+
+    ; Modify Elpizo state subroutines in place
+    .org 0x080C9A60
+    .dw     org(@elpizo_state_2_13)
+
+    .org REG_CMDROOM_CERVEAU_HANDLING
+    .area REG_CMDROOM_CERVEAU_HANDLING_AREA
+
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+    ldr     r0,=#0x080C6FB8
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r6
+    bl      0x080128D4
+    ldr     r1,=#0x01A100
+    str     r1,[r6,#0x54]
+    mov     r1,#0x8A
+    lsl     r1,#0x7
+    mov     r0,r6
+    bl      0x080127E4
+    ldrb    r0,[r6,#0xD]
+    add     r0,#0x1
+    strb    r0,[r6,#0xD]
+    b       @cerveau_subr_end
+    .pool
+@cerveau_state_5:
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+    ldr     r0,=#0x080C706C
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r6
+    bl      0x080128D4
+    ldr     r1,=#0x01A100
+    str     r1,[r6,#0x54]
+    mov     r0,#0x0
+    strb    r0,[r6,#0x12]
+    mov     r1,#0x8A
+    lsl     r1,#0x7
+    mov     r0,r6
+    bl      0x080127E4
+    ldrb    r0,[r6,#0xD]
+    add     r0,#0x1
+    strb    r0,[r6,#0xD]
+    b       @cerveau_subr_end
+    .pool
+@cerveau_subr_end:
+    ldr     r0,=#0x080C7192
+    mov     r15,r0
+    .pool
+    
+    .endarea
+
+    ; Modify Cerveau state subroutines in place
+    .org 0x080C6F38
+    .dw     REG_CMDROOM_CERVEAU_HANDLING
+    .org 0x080C6F48
+    .dw     org(@cerveau_state_5)
 
     ; Modify scripts in place
     ; Ciel cutscene
@@ -244,3 +346,8 @@
     .db     0x1, 0xB
     .org 0x08330FCA
     .db     0x2, 0x0
+    ; Elpizo goes to Neo Arcadia against his better judgment
+    .org 0x08331302
+    .db     0x1, 0xC
+    .org 0x083317AA
+    .db     0x2, 0x3
