@@ -50,7 +50,7 @@
     
     .endarea
 
-    .org org(@chkpnt_4_script)+0xC
+    .org org(@chkpnt_4_script)+0x4
     dw      org(poler_chkpnt_4)
 
     ; Modify scripts in place
