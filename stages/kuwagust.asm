@@ -107,6 +107,69 @@
 
     .endarea
 
+            ; Burble boss intro: Skip state 0, force Burble position to where he should appear
+    .org REG_KUWAGUST_BOSS_INTRO_HANDLING
+    .area REG_KUWAGUST_BOSS_INTRO_HANDLING_AREA
+    ldr     r0,=#ADDR_STAGE_INDEX
+    ldrb    r0,[r0]
+    cmp     r0,#0x10
+    beq     @@execute_normally
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x5
+    beq     @@cutscene_skipped
+@@execute_normally:
+    ldr     r0,=#0x080466C8
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r4
+    bl      0x080128D4
+    mov     r0,#0xFF
+    strb    r0,[r4,#0x12]
+    ldrb    r0,[r4,#0xE]
+    add     r0,#0x1
+    strb    r0,[r4,#0xE]
+    b       @kuwagust_subr_end
+@kuwagust_state_2:
+    ldr     r0,=#ADDR_STAGE_INDEX
+    ldrb    r0,[r0]
+    cmp     r0,#0x10
+    beq     @@execute_normally
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x5
+    beq     @@cutscene_skipped
+@@execute_normally:
+    ldr     r0,=#0x080466F0
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r4
+    bl      0x080128D4
+    ldr     r0,=#org(kuwagust_boss_spawn)
+    mov     r2,r4
+    add     r2,#0xB4
+    ldr     r1,[r0]
+    str     r1,[r4,#0x54]
+    str     r1,[r2]
+    ldr     r1,[r0,#0x4]
+    str     r1,[r4,#0x58]
+    str     r1,[r2,#0x4]
+    ldrb    r0,[r4,#0xE]
+    add     r0,#0x1
+    strb    r0,[r4,#0xE]
+@kuwagust_subr_end:
+    ldr     r0,=#0x08046786
+    mov     r15,r0
+    .pool
+
+    .endarea
+
+    ; Modify Burble intro state 0 subroutine in place
+    .org 0x080466AC
+    .dw     REG_KUWAGUST_BOSS_INTRO_HANDLING
+    .org 0x080466B4
+    .dw     org(@kuwagust_state_2)
+
     ; Modify Ciel state subroutines in place
     .org 0x080C758C
     .dw     org(@ciel_state_5)

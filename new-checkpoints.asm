@@ -65,6 +65,9 @@ kuwagust_ciel_spawn:
     .dw     0x147000
     .dw     0x0B1FFF
     .dw     0x1
+kuwagust_boss_spawn:
+    .dw     0x0FA100
+    .dw     0x101FFF
 harpuia_chkpnt_4:
     .dw     0
     .dw     0x1D4800

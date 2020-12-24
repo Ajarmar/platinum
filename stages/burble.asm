@@ -58,7 +58,7 @@
     .org org(@chkpnt_4_script)+0x4
     .dw     org(burble_chkpnt_4)
 
-        ; Burble boss intro: Skip state 0, force Burble position to where he should appear
+    ; Burble boss intro: Skip state 0, force Burble position to where he should appear
     .org REG_BURBLE_BOSS_INTRO_HANDLING
     .area REG_BURBLE_BOSS_INTRO_HANDLING_AREA
 @burble_state_0:
