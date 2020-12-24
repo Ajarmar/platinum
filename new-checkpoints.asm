@@ -163,5 +163,10 @@ cmdroom_chkpnt_C:
     .dw     0x01C000
     .dw     0x01CFFF
     .dw     0x0
+cmdroom_chkpnt_E:
+    .dw     0
+    .dw     0x018800
+    .dw     0x01CFFF
+    .dw     0x0
 
     .endarea

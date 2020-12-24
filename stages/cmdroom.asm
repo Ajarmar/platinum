@@ -36,11 +36,49 @@
     strb    r0,[r1]
 @@chkpnt_C:
     cmp     r0,#0xC
-    bne     @@subr_end
+    bne     @@chkpnt_D
     mov     r0,r4
     add     r0,#0x10
     ldr     r1,=#org(@chkpnt_C_script)
     bl      ROMADDR_SET_SCRIPT_ADDRS
+    mov     r0,#0xFF
+    ldr     r1,=#ADDR_STAGE_STATE
+    strb    r0,[r1]
+@@chkpnt_D:
+    cmp     r0,#0xD
+    bne     @@chkpnt_E
+    mov     r0,r4
+    add     r0,#0x10
+    ldr     r1,=#org(@chkpnt_D_script)
+    bl      ROMADDR_SET_SCRIPT_ADDRS
+    ldrh    r1,[r4,#0x8]
+    ldr     r0,=#0xFFFE
+    and     r0,r1
+    strh    r0,[r4,#0x8]
+    mov     r0,#0xFF
+    ldr     r1,=#ADDR_STAGE_STATE
+    strb    r0,[r1]
+@@chkpnt_E:
+    cmp     r0,#0xE
+    bne     @@chkpnt_F
+    mov     r0,r4
+    add     r0,#0x10
+    ldr     r1,=#org(@chkpnt_E_script)
+    bl      ROMADDR_SET_SCRIPT_ADDRS
+    mov     r0,#0xFF
+    ldr     r1,=#ADDR_STAGE_STATE
+    strb    r0,[r1]
+@@chkpnt_F:
+    cmp     r0,#0xF
+    bne     @@subr_end
+    mov     r0,r4
+    add     r0,#0x10
+    ldr     r1,=#org(@chkpnt_F_script)
+    bl      ROMADDR_SET_SCRIPT_ADDRS
+    ldrh    r1,[r4,#0x8]
+    ldr     r0,=#0xFFFE
+    and     r0,r1
+    strh    r0,[r4,#0x8]
     mov     r0,#0xFF
     ldr     r1,=#ADDR_STAGE_STATE
     strb    r0,[r1]
@@ -56,6 +94,12 @@
     .incbin "stages/scripts/cmdroom-script-B.bin"
 @chkpnt_C_script:
     .incbin "stages/scripts/cmdroom-script-C.bin"
+@chkpnt_D_script:
+    .db 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
+@chkpnt_E_script:
+    .incbin "stages/scripts/cmdroom-script-E.bin" ; just spawn in zero lol
+@chkpnt_F_script:
+    .db 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
 
     .endarea
     
@@ -66,6 +110,8 @@
     dw      org(cmdroom_chkpnt_B)
     .org org(@chkpnt_C_script)+0x4
     dw      org(cmdroom_chkpnt_C)
+    .org org(@chkpnt_E_script)+0x4
+    dw      org(cmdroom_chkpnt_E)
 
     .org REG_CMDROOM_CIEL_HANDLING
     .area REG_CMDROOM_CIEL_HANDLING_AREA
@@ -343,11 +389,26 @@
     .db     0x2, 0x0        ; Gain control: Set not skippable, checkpoint 0
     ; Elpizo cutscene w/ the troops
     .org 0x08330EC2
-    .db     0x1, 0xB
+    .db     0x1, 0xB        ; Lose control: Set skippable, checkpoint 0xB
     .org 0x08330FCA
-    .db     0x2, 0x0
+    .db     0x2, 0x0        ; Music change: Set not skippable, checkpoint 0
     ; Elpizo goes to Neo Arcadia against his better judgment
     .org 0x08331302
-    .db     0x1, 0xC
+    .db     0x1, 0xC        ; Lose control: Set skippable, checkpoint 0xC
     .org 0x083317AA
-    .db     0x2, 0x3
+    .db     0x2, 0x3        ; Fade out: Set not skippable, checkpoint 3
+    ; Elpizo is brought back to the Resistance Base after getting demolished in Neo Arcadia
+    .org 0x08331812
+    .db     0x1, 0xD        ; Lose control: Set skippable, checkpoint 0xD
+    .org 0x083319E2
+    .db     0x2, 0x5        ; Fade out: Set not skippable, checkpoint 5
+    ; Elpizo laments his shortcomings
+    .org 0x08331A3A
+    .db     0x1, 0xE        ; Lose control: Set skippable, checkpoint 0xE
+    .org 0x08331B6A
+    .db     0x2, 0x6        ; Gain control: Set not skippable, checkpoint 6
+    ; Elpizo reaches the depths of Neo Arcadia and engages in a minor scuffle with X
+    .org 0x08331DB2
+    .db     0x1, 0xF        ; Music fades out: Set skippable, checkpoint 0xF
+    .org 0x0833211A
+    .db     0x2, 0x7        ; Fade out: Set not skippable, checkpoint 7
