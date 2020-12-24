@@ -57,8 +57,45 @@
     
     .endarea
 
-    .org org(@chkpnt_4_script)+0xC
+    .org org(@chkpnt_4_script)+0x4
     dw      org(hyleg_chkpnt_4)
+
+    ; Hyleg intro animation
+    .org REG_HYLEG_BOSS_INTRO_HANDLING
+    .area REG_HYLEG_BOSS_INTRO_HANDLING_AREA
+@hyleg_intro_state_0:
+    ldr     r0,=#ADDR_STAGE_INDEX
+    ldrb    r0,[r0]
+    cmp     r0,#0x10
+    bne     @@in_hyleg_stage
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x1
+    bne     @@execute_normally
+    b       @@cutscene_skipped
+@@in_hyleg_stage:
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    bne     @@execute_normally
+@@cutscene_skipped:
+    mov     r0,#0x1
+    strb    r0,[r4,#0x11]               ; Set flag to skip intro movement animation (thank you inti creates)
+    ldrb    r0,[r4,#0x12]
+    sub     r0,#0xA
+    strb    r0,[r4,#0x12]
+    ldr     r0,=#0x08040360             ; Execute this state unconditionally instead of waiting
+    mov     r15,r0
+@@execute_normally:
+    ldr     r0,=#0x08040360
+    mov     r15,r0
+    .pool
+
+    .endarea
+
+    ; Modify Hyleg intro state subroutine in place
+    .org 0x08040344
+    .dw     org(@hyleg_intro_state_0)
 
     ; Modify scripts in place
     ; Stage start scripts
