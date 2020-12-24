@@ -121,6 +121,10 @@
 
     ; Modify scripts in place
     ; Pre-boss scripts
+    .org 0x08326AB6
+    .db     1, 4            ; Lose control: Set skippable, checkpoint 4
+    .org 0x08326CCE
+    .db     2, 3            ; Gain control: Set not skippable, checkpoint 3
     .org 0x083277D6
     .db     1, 4            ; Lose control: Set skippable, checkpoint 4
     .org 0x0832789E
@@ -130,12 +134,9 @@
     .db     1, 5            ; Fade in: Set skippable, checkpoint 5
     ; Let's go Elpizo!!! cutscene
     .org 0x08326F16
-    .db     1, 6            ; Set initial camera position?: Set skippable, checkpoint 6
+    .db     1, 6            ; Change music: Set skippable, checkpoint 6
     ; Sleepy Zero cutscene
     .org 0x083273D6
-    .db     1, 7            ; Set initial camera position?: Set skippable, checkpoint 7
+    .db     1, 7            ; Change music: Set skippable, checkpoint 7
     .org 0x0832764E
     .db     2               ; Fade out: Set not skippable
-
-    ;.org 0x083283EE
-    ;.db     2               ; Fade out: Set not skippable

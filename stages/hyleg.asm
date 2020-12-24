@@ -67,6 +67,10 @@
     .org 0x08327B16
     .db     2               ; Gain control: Set not skippable
     ; Pre-boss scripts
+    .org 0x08327CCE
+    .db     1, 4            ; Lose control: Set skippable, set checkpoint to 4
+    .org 0x08327E6E
+    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
     .org 0x08327E8E
     .db     1, 4            ; Lose control: Set skippable, set checkpoint to 4
     .org 0x08327F86
