@@ -79,6 +79,48 @@
     ; Ciel animations: speed up "teleport in" animation
     .org REG_KUWAGUST_CIEL_HANDLING
     .area REG_KUWAGUST_CIEL_HANDLING_AREA
+@ciel_state_1:
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+    ldr     r0,=#0x080C7614
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r6
+    bl      0x080128D4
+    mov     r0,r6
+    bl      0x08012CD0
+    ldr     r0,=#0x0B1FFF
+    str     r0,[r6,#0x58]
+    mov     r0,#0x1
+    strb    r0,[r6,#0x12]
+    ldrb    r0,[r6,#0xD]
+    add     r0,#0x1
+    strb    r0,[r6,#0xD]
+    b       @ciel_subr_end
+    .pool
+@ciel_state_3:
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+    ldr     r0,=#0x080C7690
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r6
+    bl      0x080128D4
+    mov     r0,r6
+    bl      0x08012CD0
+    mov     r0,#0x9
+    strb    r0,[r6,#0x12]
+    ldr     r0,=#0x01000100
+    str     r0,[r6,#0x50]
+    ldrb    r0,[r6,#0xD]
+    add     r0,#0x1
+    strb    r0,[r6,#0xD]
+    b       @ciel_subr_end
+    .pool
 @ciel_state_5:
     ldr     r0,=#ADDR_CHECKPOINT
     ldrb    r0,[r0]
@@ -100,12 +142,44 @@
     strb    r0,[r6,#0x12]
     b       @ciel_subr_end
     .pool
+@ciel_state_8:
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+    ldr     r0,=#0x080C7784
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r6
+    bl      0x080128D4
+    mov     r0,r6
+    bl      0x08012C04
+    mov     r0,#0x0
+    strb    r0,[r6,#0x12]
+    ldr     r1,=#0xC402
+    mov     r0,r6
+    bl      0x080127E4
+    ldrb    r0,[r6,#0xD]
+    add     r0,#0x1
+    strb    r0,[r6,#0xD]
+    b       @ciel_subr_end
+    .pool
 @ciel_subr_end:
     ldr     r0,=#0x080C7998
     mov     r15,r0
     .pool
 
     .endarea
+
+    ; Modify Ciel state subroutines in place
+    .org 0x080C757C
+    .dw     org(@ciel_state_1)
+    .org 0x080C7584
+    .dw     org(@ciel_state_3)
+    .org 0x080C758C
+    .dw     org(@ciel_state_5)
+    .org 0x080C7598
+    .dw     org(@ciel_state_8)
 
             ; Burble boss intro: Skip state 0, force Burble position to where he should appear
     .org REG_KUWAGUST_BOSS_INTRO_HANDLING
@@ -169,10 +243,6 @@
     .dw     REG_KUWAGUST_BOSS_INTRO_HANDLING
     .org 0x080466B4
     .dw     org(@kuwagust_state_2)
-
-    ; Modify Ciel state subroutines in place
-    .org 0x080C758C
-    .dw     org(@ciel_state_5)
 
     ; Modify scripts in place
     ; Stage start script

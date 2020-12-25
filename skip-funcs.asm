@@ -37,6 +37,13 @@
 
     .org ROMADDR_RESPAWN_HEALTH_HOOK
     bl      @set_respawn_health
+
+    .org ROMADDR_RNG_HOOK
+    ldr     r1,=#org(@retain_rng_on_skip)+1
+    .skip   6
+    bx      r1
+    .skip   0xEC
+    .pool
  
     .org REG_SKIP_FUNCS
     .area REG_SKIP_FUNCS_AREA
@@ -96,6 +103,10 @@
     stmia   r1!,{r2-r3}         ; Store 8 bytes
     ldrh    r2,[r0]             ; Load another 2 bytes
     strh    r2,[r1]             ; Store another 2 bytes
+    ldr     r0,=#ADDR_STAGE_SCRIPT                      ; Signify that a cutscene has been skipped for RNG purposes
+    ldr     r1,[r0]
+    add     r1,#0x1
+    str     r1,[r0]
 @@subr_end:
     pop     {r2-r7}
     ldr     r4,=#0x08014EDF
@@ -263,5 +274,24 @@
     mov     r2,#0xBF
     lsl     r2,r2,#0x1
     bx      r14
+    .pool
+@retain_rng_on_skip:
+    ldr     r2,=#ADDR_STAGE_SCRIPT
+    ldrb    r2,[r2]
+    mov     r1,#0x1
+    and     r2,r1
+    cmp     r2,#0x0
+    beq     @@execute_normally
+    ldr     r0,=#ADDR_STAGE_SCRIPT
+    ldr     r1,[r0]
+    sub     r1,#0x1
+    str     r1,[r0]
+    b       @@subr_end
+@@execute_normally:
+    ldr     r1,=#ADDR_RNG
+    str     r0,[r1]
+@@subr_end:
+    ldr     r0,=#ROMADDR_RNG_HOOK_RETURN+1
+    bx      r0
     .pool
     .endarea
