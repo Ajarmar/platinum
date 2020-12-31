@@ -44,6 +44,14 @@
     bx      r1
     .skip   0xEC
     .pool
+
+    .org ROMADDR_CHARGE_TIMER_HOOK
+    bl      @retain_weapon_charge_on_skip
+    
+    .org ROMADDR_CHARGE_TIMER_HOOK_2 ; This is the reality we live in
+    nop
+    .skip 4
+    nop
  
     .org REG_SKIP_FUNCS
     .area REG_SKIP_FUNCS_AREA
@@ -292,6 +300,18 @@
     str     r0,[r1]
 @@subr_end:
     ldr     r0,=#ROMADDR_RNG_HOOK_RETURN+1
+    bx      r0
+    .pool
+@retain_weapon_charge_on_skip:
+    push    r14
+    ldr     r1,=#ADDR_STAGE_SCRIPT
+    ldr     r1,[r1]
+    ldrb    r1,[r1,#0x2]
+    cmp     r1,#0x0
+    bne     @@subr_end
+    bl      ROMADDR_RESET_CHARGE_TIMER_FUNC
+@@subr_end:
+    pop     r0
     bx      r0
     .pool
     .endarea
