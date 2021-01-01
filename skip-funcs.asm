@@ -148,16 +148,7 @@
     ldr     r1,=#0x030201
     str     r1,[r0,#0xC]
     mov     r1,#0x1
-    strb    r1,[r0,#0x12] ; 080669E4 pantheon subr 08067024 shooting (7) 08067068 state 8
-    ;ldr     r0,=#0x02001000
-    ;ldr     r1,=#0x02D01C
-    ;add     r0,r0,r1
-    ;mov     r1,#0x1
-    ;strb    r1,[r0,#0x2]
-    ;mov     r0,#0x1E
-    ;mov     r1,#0x1D
-    ;ldr     r2,=#0x083200A8
-    ;bl      0x0800860C
+    strb    r1,[r0,#0x12]
 @@arg_3:
     ldr     r0,[r4,#0xC]
     ldrb    r0,[r0,#0x3]
