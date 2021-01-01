@@ -222,6 +222,8 @@
     ; TK-31
     .org 0x0832FB7E
     .db     1, 0xC          ; Lose control: Set skippable, set checkpoint to 0xC
+    .org 0x0833015E
+    .db     0x10            ; Fix garbled cutscene art
     .org 0x0833022E
     .db     2, 5            ; Gain control: Set not skippable, set checkpoint to 5
     .org 0x0833024E
@@ -233,6 +235,6 @@
     .db     1, 0xD          ; Lose control: Set skippable, set checkpoint to 0xD
     .org 0x08330436
     .db     2, 5            ; Gain control: Set not skippable, set checkpoint to 5
-
-    .org 0x0833015E
-    .db     0x10
+    ; After Elpizo
+    .org 0x08330826
+    .db     0x10            ; Fix garbled cutscene art
