@@ -74,6 +74,10 @@
     and     r2,r6
     cmp     r2,#0x0
     beq     @@subr_end
+    mov     r2,#0x20
+    and     r2,r6
+    cmp     r2,#0x0
+    bne     @@subr_end
     ldr     r0,=#ADDR_KEY       ; Check for start button press {
     ldrh    r1,[r0,#0x4]
     mov     r4,#VAL_KEY_START
