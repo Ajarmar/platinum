@@ -99,18 +99,9 @@
     stmia   r1!,{r2-r7}
     ldmia   r0!,{r2-r3}
     stmia   r1!,{r2-r3}
-    ldr     r1,=#0x02036C10     ; "Saved gameplay settings" section to write to
-    ldr     r0,=#0x02037EDC     ; Read from control settings
-    ldmia   r0!,{r2-r7}         ; Load 24 bytes
-    stmia   r1!,{r2-r7}         ; Store 24 bytes
-    ldmia   r0!,{r2-r7}         ; Load 24 bytes
-    stmia   r1!,{r2-r7}         ; Store 24 bytes
-    ldmia   r0!,{r2-r7}         ; Load 24 bytes
-    stmia   r1!,{r2-r7}         ; Store 24 bytes
-    ldmia   r0!,{r2-r3}         ; Load 8 bytes
-    stmia   r1!,{r2-r3}         ; Store 8 bytes
-    ldrh    r2,[r0]             ; Load another 2 bytes
-    strh    r2,[r1]             ; Store another 2 bytes
+    ldr     r0,=#ADDR_ZERO_BASE
+    ldr     r1,=#ADDR_STORED_ZERO_DATA
+    bl      ROMADDR_STORE_ZERO_DATA
     ldr     r0,=#ADDR_STAGE_SCRIPT                      ; Signify that a cutscene has been skipped for RNG purposes
     ldr     r1,[r0]
     add     r1,#0x1

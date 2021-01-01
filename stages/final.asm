@@ -174,6 +174,19 @@
     .org org(@chkpnt_D_script)+0x4
     .dw     org(final_chkpnt_D)
 
+    .org org(@chkpnt_6_script)+0xC
+    .dw     org(final_camera_1)
+    .org org(@chkpnt_7_script)+0xC
+    .dw     org(final_camera_1)
+    .org org(@chkpnt_8_script)+0xC
+    .dw     org(final_camera_1)
+    .org org(@chkpnt_9_script)+0xC
+    .dw     org(final_camera_2)
+    .org org(@chkpnt_A_script)+0xC
+    .dw     org(final_camera_2)
+    .org org(@chkpnt_B_script)+0xC
+    .dw     org(final_camera_2)
+
     ; Modify scripts in place
     ; Pre-boss scripts
     ; Hyleg

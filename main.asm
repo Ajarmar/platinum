@@ -3,6 +3,7 @@
     .include "constants.asm"
     .include "regions.asm"
     .include "new-checkpoints.asm"
+    .include "new-camera-data.asm"
     .include "skip-funcs.asm"
     .include "stages/intro.asm"
     .include "stages/panter.asm"
