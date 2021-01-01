@@ -46,13 +46,13 @@
     .endarea
 
     ; Positional data
-    .org org(@chkpnt_7_script)+0xC
+    .org org(@chkpnt_7_script)+0x4
     dw      org(phoenix_chkpnt_7)
-    .org org(@chkpnt_8_script)+0xC
+    .org org(@chkpnt_8_script)+0x4
     dw      org(phoenix_chkpnt_8)
-    .org org(@chkpnt_9_script)+0xC
+    .org org(@chkpnt_9_script)+0x4
     dw      org(phoenix_chkpnt_9)
-    .org org(@chkpnt_A_script)+0xC
+    .org org(@chkpnt_A_script)+0x4
     dw      org(phoenix_chkpnt_A)
 
     ; Phoenix boss intro: Skip state 3, force Phoenix position to where he should appear
