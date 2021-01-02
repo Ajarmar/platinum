@@ -61,7 +61,7 @@
     ; Burble boss intro: Skip state 0, force Burble position to where he should appear
     .org REG_BURBLE_BOSS_INTRO_HANDLING
     .area REG_BURBLE_BOSS_INTRO_HANDLING_AREA
-@burble_state_0:
+@burble_state_0_0:
     push    r14
     ldr     r0,=#ADDR_STAGE_INDEX
     ldrb    r0,[r0]
@@ -98,6 +98,35 @@
     pop     r1
     bx      r1
     .pool
+@burble_state_0_2:
+    push    r4,r14
+    mov     r4,r0
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+@@execute_normally:
+    mov     r0,r4
+    pop     r4
+    pop     r1
+    ldr     r1,=#0x080518E0
+    mov     r15,r1
+@@cutscene_skipped:
+    mov     r0,r4
+    bl      0x080128D4
+    mov     r0,r4
+    add     r0,#0x73
+    mov     r1,#0x3
+    strb    r1,[r0]
+    ldrb    r0,[r4,#0xE]
+    add     r0,#0x1
+    strb    r0,[r4,#0xE]
+    mov     r0,#0x0
+    strb    r0,[r4,#0xF]
+    pop     r4
+    pop     r1
+    bx      r1
+    .pool
 
     .endarea
 
@@ -105,6 +134,8 @@
     .org 0x080517FA
     bl      REG_BURBLE_BOSS_INTRO_HANDLING
     nop
+    .org 0x0833B6F0
+    .dw     org(@burble_state_0_2)+1
 
     ; Modify scripts in place
     ; Stage start script
