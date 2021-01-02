@@ -23,6 +23,13 @@
     .include "stages/final.asm"
     .include "stages/cmdroom.asm"
 
+    .org REG_MAIN
+    .area REG_MAIN_AREA
+    
+    .ascii "PLAT"
+
+    .endarea
+
     .close
 
     ; Script entrypoint: 0x0801B6EC
