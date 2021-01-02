@@ -1,9 +1,8 @@
     ; Change to existing code.
-    ; Normally checks if you're in the intro stage, now checks
-    ; if you are in any stage that isn't commander room.
-    .org 0x08014AAA
-    cmp     r0,#0x11
-    bgt     #0x08014AB4
+    ; Normally checks if you're in the intro stage, now continues unconditionally
+    ; to check for start press
+    .org 0x08014AAC
+    nop
     nop
     
     ; Change to existing code.
@@ -12,10 +11,12 @@
     ; Now branches to a new subroutine instead and skips this check.
     .org 0x08014E96
     .area 14
-    ldr     r2,=#REG_SKIP_FUNCS+0x1
-    ldr     r5,=#ADDR_GAME_STATE-0x1
-    bx      r2
-    .pool
+    bl      REG_SKIP_FUNCS
+    ldr     r3,[r2,#0x20]
+    .skip 2
+    cmp     r0,#0x0
+    beq     #0x08014EDE
+    nop
     .endarea
 
     ; End of script 9: branch to new subroutine to check 2nd/3rd arg
@@ -56,34 +57,32 @@
     .org REG_SKIP_FUNCS
     .area REG_SKIP_FUNCS_AREA
 
+    push    {r4-r7,r14}
     cmp     r0,#0x1
-    bne     @not_intro
+    bne     @@not_intro
     ldr     r2,=#ADDR_CHECKPOINT
     ldrb    r3,[r2]
     cmp     r3,#0x1
-    bgt     @not_intro
-    mov     r2,r1
-    ldr     r3,[r2,#0x20]
-    ldr     r0,=#0x08014EA5
-    bx      r0
-@not_intro:
-    push    {r2-r7}
+    bgt     @@not_intro
+    mov     r0,#0x1
+    b       @@subr_end
+@@not_intro:
     ldr     r5,=#ADDR_CUTSCENE_SKIPPABLE
     ldrb    r6,[r5]
     mov     r2,#0x80
     and     r2,r6
     cmp     r2,#0x0
-    beq     @@subr_end
+    beq     @@not_intro_subr_end
     mov     r2,#0x20
     and     r2,r6
     cmp     r2,#0x0
-    bne     @@subr_end
+    bne     @@not_intro_subr_end
     ldr     r0,=#ADDR_KEY       ; Check for start button press {
     ldrh    r1,[r0,#0x4]
     mov     r4,#VAL_KEY_START
     and     r1,r4
     cmp     r1,#0x0             ; }
-    beq     @@subr_end
+    beq     @@not_intro_subr_end
     mov     r2,#0x7F
     and     r6,r2
     strb    r6,[r5]
@@ -110,10 +109,13 @@
     ldr     r1,[r0]
     add     r1,#0x1
     str     r1,[r0]
+@@not_intro_subr_end:
+    mov     r0,#0x0
 @@subr_end:
-    pop     {r2-r7}
-    ldr     r4,=#0x08014EDF
-    bx      r4
+    mov     r2,r1
+    pop     {r4-r7}
+    pop     r3
+    bx      r3
     .pool
 @script_9_extra_args:
     push    r14
