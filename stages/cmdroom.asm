@@ -312,6 +312,64 @@
     strb    r0,[r5,#0xD]
     b       @elpizo_subr_end
     .pool
+@elpizo_state_2_15:
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+    ldr     r0,=#0x080CA0FA
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r5
+    bl      0x080128D4
+    mov     r0,r5
+    bl      0x08012CD0
+    mov     r0,#0x0
+    strb    r0,[r5,#0x12]
+    ldr     r0,=#0x01400060
+    str     r0,[r5,#0x50]
+    ldr     r0,=#0xFFFFF400
+    str     r0,[r5,#0x60]
+    ldrb    r0,[r5,#0xD]
+    add     r0,#0x1
+    strb    r0,[r5,#0xD]
+    b       @elpizo_subr_end
+    .pool
+@elpizo_state_2_16:
+    ldr     r0,=#ADDR_CHECKPOINT
+    ldrb    r0,[r0]
+    cmp     r0,#0x3
+    beq     @@cutscene_skipped
+    ldr     r0,=#0x080CA13C
+    mov     r15,r0
+@@cutscene_skipped:
+    mov     r0,r5
+    bl      0x080128D4
+    mov     r0,r5
+    bl      0x08012CD0
+    ldr     r0,=#0x01400020
+    str     r0,[r5,#0x50]
+    ldr     r0,=#0xFFFFF1C0
+    str     r0,[r5,#0x60]
+    ldr     r0,=#0x0104C0
+    str     r0,[r5,#0x58]
+    ldr     r0,=#0x0202ED18
+    mov     r1,r5
+    add     r1,#0x54
+    bl      0x08015188
+    mov     r1,#0xC0
+    lsl     r1,#0x6
+    cmp     r0,r1
+    bls     @elpizo_subr_end
+    ldrb    r0,[r5,#0xA]
+    mov     r1,#0xFE
+    and     r1,r0
+    strb    r1,[r5,#0xA]
+    ldrb    r0,[r5,#0xD]
+    add     r0,#0x1
+    strb    r0,[r5,#0xD]
+    b       @elpizo_subr_end
+    .pool
 @elpizo_subr_end:
     ldr     r0,=#0x080CA19A
     mov     r15,r0
@@ -321,6 +379,10 @@
     ; Modify Elpizo state subroutines in place
     .org 0x080C9A60
     .dw     org(@elpizo_state_2_13)
+    .org 0x080C9A68
+    .dw     org(@elpizo_state_2_15)
+    .org 0x080C9A6C
+    .dw     org(@elpizo_state_2_16)
 
     .org REG_CMDROOM_CERVEAU_HANDLING
     .area REG_CMDROOM_CERVEAU_HANDLING_AREA
