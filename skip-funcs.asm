@@ -109,6 +109,14 @@
     ldr     r1,[r0]
     add     r1,#0x1
     str     r1,[r0]
+    ldr     r0,=#ADDR_ZERO_BASE
+    ldr     r1,=#0x188
+    add     r0,r0,r1
+    ldr     r2,=#ADDR_FREE_AREA
+    ldr     r1,=#0x17C
+    add     r2,r2,r1
+    ldrh    r1,[r0]
+    strh    r1,[r2]
 @@not_intro_subr_end:
     mov     r0,#0x0
 @@subr_end:
@@ -151,6 +159,9 @@
     str     r1,[r0,#0xC]
     mov     r1,#0x1
     strb    r1,[r0,#0x12]
+    ldr     r1,=#ADDR_ZERO_BASE
+    add     r0,#0xB4
+    str     r1,[r0]
 @@arg_3:
     ldr     r0,[r4,#0xC]
     ldrb    r0,[r0,#0x3]
@@ -296,8 +307,18 @@
     ldr     r1,[r1]
     ldrb    r1,[r1,#0x2]
     cmp     r1,#0x0
-    bne     @@subr_end
+    bne     @@load_stored_charge
     bl      ROMADDR_RESET_CHARGE_TIMER_FUNC
+    b       @@subr_end
+@@load_stored_charge:
+    ldr     r0,=#ADDR_ZERO_BASE
+    ldr     r1,=#0x188
+    add     r0,r0,r1
+    ldr     r2,=#ADDR_FREE_AREA
+    ldr     r1,=#0x17C
+    add     r2,r2,r1
+    ldrh    r1,[r2]
+    strh    r1,[r0]
 @@subr_end:
     pop     r0
     bx      r0

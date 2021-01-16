@@ -29,6 +29,11 @@
     .ascii "PLAT"
 
     .endarea
+    
+    ; Set the Zero max entity count to 1
+    ; This will break multiplayer but frees up a chunk of RAM that can be used (0x304 bytes)
+    .org ROMADDR_SET_ZERO_ENTITY_MAX_LOCATION
+    mov     r2,#0x1
 
     .close
 
