@@ -52,6 +52,9 @@
     mov     r0,#0xE
     ldr     r1,=#ADDR_STAGE_STATE
     strb    r0,[r1]
+    ldr     r0,=#ADDR_ZERO_CURRENT_HEALTH   ; Set health to full
+    mov     r1,#0x10
+    strb    r1,[r0]
     b       @@set_flags_and_end
 @@chkpnt_6:
     cmp     r0,#0x6
