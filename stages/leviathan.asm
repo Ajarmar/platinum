@@ -104,7 +104,7 @@
 
     .endarea
 
-    ; Modify Ciel state subroutines in place
+    ; Modify Leviathan state subroutines in place
     .org 0x0805DBFC
     .dw     org(@leviathan_state_0)
     .org 0x0805DC04
