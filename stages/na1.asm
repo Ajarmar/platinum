@@ -27,6 +27,9 @@
     ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
     mov     r0,#0x4
     strb    r0,[r1]
+    ldr     r0,=#ADDR_ZERO_CURRENT_HEALTH   ; Set health to full
+    mov     r1,#0x10
+    strb    r1,[r0]
 @@subr_end:
     ldr     r0,=#ROMADDR_NA1_FUNC_END+1
     bx      r0
