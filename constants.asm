@@ -28,6 +28,9 @@
     
     ADDR_FREE_AREA equ 0x02037FF4 ; Only free if Zero entity max count is set to 1 (see main.asm), 0x304 bytes (actually 0x17E??)
 
+    OFFSET_NEW_PAUSE_PREVENTION equ 0x17B
+    OFFSET_NEW_CHARGE_TIMER equ 0x17C
+
     ROMADDR_SET_ZERO_ENTITY_MAX_LOCATION equ 0x080E44DA
 
     ROMADDR_INTRO_HOOK equ 0x08015F26

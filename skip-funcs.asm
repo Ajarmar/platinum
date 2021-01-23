@@ -58,14 +58,19 @@
     .area REG_SKIP_FUNCS_AREA
 
     push    {r4-r7,r14}
+    mov     r7,#0x0
     cmp     r0,#0x1
     bne     @@not_intro
     ldr     r2,=#ADDR_CHECKPOINT
     ldrb    r3,[r2]
     cmp     r3,#0x1
-    bgt     @@not_intro
+    bgt     @@intro_but_late_chkpnt
     mov     r0,#0x1
     b       @@subr_end
+@@intro_but_late_chkpnt:
+    cmp     r3,#0x5
+    bne     @@not_intro
+    mov     r7,#0x1
 @@not_intro:
     ldr     r5,=#ADDR_CUTSCENE_SKIPPABLE
     ldrb    r6,[r5]
@@ -76,6 +81,12 @@
     mov     r2,#0x20
     and     r2,r6
     cmp     r2,#0x0
+    bne     @@not_intro_subr_end
+    ldr     r2,=#ADDR_FREE_AREA
+    ldr     r1,=#OFFSET_NEW_PAUSE_PREVENTION
+    add     r2,r2,r1
+    ldrb    r1,[r2]
+    cmp     r1,#0x0
     bne     @@not_intro_subr_end
     ldr     r0,=#ADDR_KEY       ; Check for start button press {
     ldrh    r1,[r0,#0x4]
@@ -89,6 +100,14 @@
     mov     r4,#0x3
     ldr     r5,=#ADDR_GAME_STATE
     strb    r4,[r5]
+    cmp     r7,#0x1
+    bne     @@skip_pause_prevention
+    ldr     r2,=#ADDR_FREE_AREA
+    ldr     r1,=#OFFSET_NEW_PAUSE_PREVENTION
+    add     r2,r2,r1
+    mov     r1,#0x1
+    strb    r1,[r2]
+@@skip_pause_prevention:
     ldr     r0,=#ADDR_ZERO_CURRENT_HEALTH   ; Store current health as respawn health
     mov     r1,#0xFF
     ldrb    r2,[r0]
@@ -113,7 +132,7 @@
     ldr     r1,=#0x188
     add     r0,r0,r1
     ldr     r2,=#ADDR_FREE_AREA
-    ldr     r1,=#0x17C
+    ldr     r1,=#OFFSET_NEW_CHARGE_TIMER
     add     r2,r2,r1
     ldrh    r1,[r0]
     strh    r1,[r2]
@@ -246,6 +265,11 @@
     mov     r4,#0x80
     orr     r3,r4
     strb    r3,[r1]
+    ldr     r2,=#ADDR_FREE_AREA
+    ldr     r1,=#OFFSET_NEW_PAUSE_PREVENTION
+    add     r2,r2,r1
+    mov     r1,#0x0
+    strb    r1,[r2]
     b       @@arg_3
 @@check_2:
     cmp     r1,#0x2

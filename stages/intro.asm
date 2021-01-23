@@ -55,6 +55,11 @@
     ldr     r0,=#ADDR_ZERO_CURRENT_HEALTH   ; Set health to full
     mov     r1,#0x10
     strb    r1,[r0]
+    ldr     r0,=#ADDR_CUTSCENE_SKIPPABLE
+    mov     r1,#0x80
+    ldrb    r2,[r0]
+    orr     r2,r1
+    strb    r2,[r0]
     b       @@set_flags_and_end
 @@chkpnt_6:
     cmp     r0,#0x6
@@ -113,7 +118,7 @@
 
 @chkpnt_7_script:
 
-    .incbin "stages/scripts/intro-script-7.bin"
+    .db 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
 
     .endarea
     
