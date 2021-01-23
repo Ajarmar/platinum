@@ -132,10 +132,27 @@
     ldr     r1,=#0x188
     add     r0,r0,r1
     ldr     r2,=#ADDR_FREE_AREA
-    ldr     r1,=#OFFSET_NEW_CHARGE_TIMER
+    ldr     r1,=#OFFSET_NEW_INPUT_BUFFER
     add     r2,r2,r1
     ldrh    r1,[r0]
-    strh    r1,[r2]
+    strh    r1,[r2,#0x2]
+    mov     r4,#0x0
+    mov     r0,r1
+    mov     r3,#0xFF
+    and     r0,r3
+    cmp     r0,#0x0
+    beq     @@check_secondary
+    mov     r3,#0x10
+    orr     r4,r3
+@@check_secondary:
+    lsr     r0,r1,#0x8
+    mov     r3,#0xFF
+    and     r0,r3
+    cmp     r0,#0x0
+    beq     @@not_intro_subr_end
+    mov     r3,#0x80
+    orr     r4,r3
+    strb    r4,[r2]
 @@not_intro_subr_end:
     mov     r0,#0x0
 @@subr_end:
@@ -339,10 +356,15 @@
     ldr     r1,=#0x188
     add     r0,r0,r1
     ldr     r2,=#ADDR_FREE_AREA
-    ldr     r1,=#0x17C
+    ldr     r1,=#OFFSET_NEW_INPUT_BUFFER
     add     r2,r2,r1
-    ldrh    r1,[r2]
+    ldrh    r1,[r2,#0x2]
     strh    r1,[r0]
+    ldrb    r1,[r2]
+    cmp     r1,#0x0
+    beq     @@subr_end
+    add     r0,#0x10
+    strb    r1,[r0]
 @@subr_end:
     pop     r0
     bx      r0
