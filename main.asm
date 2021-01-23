@@ -1,5 +1,5 @@
     .gba
-    .open "z2prac.gba", "z2prac-platinum.gba", 0x08000000
+    .open "z2.gba", "z2-platinum.gba", 0x08000000
     .include "constants.asm"
     .include "regions.asm"
     .include "new-checkpoints.asm"
