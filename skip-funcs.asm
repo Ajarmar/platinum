@@ -149,9 +149,10 @@
     mov     r3,#0xFF
     and     r0,r3
     cmp     r0,#0x0
-    beq     @@not_intro_subr_end
+    beq     @@store_input_buffer
     mov     r3,#0x80
     orr     r4,r3
+@@store_input_buffer:
     strb    r4,[r2]
 @@not_intro_subr_end:
     mov     r0,#0x0
