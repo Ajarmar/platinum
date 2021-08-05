@@ -70,7 +70,7 @@ kuwagust_boss_spawn:
     .dw     0x101FFF
 harpuia_chkpnt_4:
     .dw     0
-    .dw     0x1D4800
+    .dw     0x1D34FF
     .dw     0x061FFF
     .dw     0x1
 burble_chkpnt_4:
