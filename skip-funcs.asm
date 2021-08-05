@@ -25,6 +25,12 @@
     pop     r1
     bx      r1
 
+    ; End of script B: branch to new subroutine to check 2nd arg
+    .org 0x0801C2C8
+    bl      @script_B_extra_args
+    pop     r1
+    bx      r1
+
     ; End of script 14: branch to new subroutine to fix BG register
     ; for "WARNING" animation
     ; Also check extra args like script 9
@@ -53,6 +59,9 @@
     nop
     .skip 4
     nop
+
+    .org ROMADDR_RESET_CYBER_ELVES
+    bl      @retain_elf_references_on_skip
  
     .org REG_SKIP_FUNCS
     .area REG_SKIP_FUNCS_AREA
@@ -154,6 +163,32 @@
     orr     r4,r3
 @@store_input_buffer:
     strb    r4,[r2]
+@@store_cyber_elf:
+    ldr     r6,=#ADDR_FREE_AREA
+    ldr     r7,=#OFFSET_NEW_SAVED_HACKER_EFFECT
+    add     r7,r6,r7
+    ldr     r0,=#ADDR_HACKER_ELF_EFFECT
+    ldrb    r0,[r0]
+    strb    r0,[r7]
+    ldr     r0,=#ADDR_ZERO_BASE
+    mov     r4,0xAA
+    lsl     r4,#0x2
+    add     r4,r0,r4
+    ldr     r7,=#OFFSET_NEW_SAVED_ELVES
+    add     r7,r6,r7
+    mov     r6,#0x0
+@@loop_cyber_elves:
+    ldr     r0,[r4]
+    cmp     r0,#0x0
+    beq     @@next_reference
+    ldrb    r5,[r0,#0x10]
+    strb    r5,[r7]
+@@next_reference:
+    add     r4,#0x4
+    add     r6,#0x1
+    add     r7,#0x1
+    cmp     r6,#0x3
+    blt     @@loop_cyber_elves
 @@not_intro_subr_end:
     mov     r0,#0x0
 @@subr_end:
@@ -215,6 +250,57 @@
     pop     r0
     bx      r0
     .pool
+@script_B_extra_args:
+    push    {r4-r6,r14}
+    ldr     r1,=#ADDR_STAGE_SCRIPT
+    ldr     r1,[r1]
+    ldrb    r1,[r1,#0x2]
+    cmp     r1,#0x0
+    beq     @@subr_end
+    ldr     r0,=#ADDR_ZERO_BASE
+    mov     r1,#0x0
+    bl      ROMADDR_ZERO_REMOVE_CYBERELF_REFS
+    ldr     r0,=#ADDR_FREE_AREA
+    ldr     r1,=#OFFSET_NEW_SAVED_HACKER_EFFECT
+    add     r4,r0,r1
+    ldr     r1,=#ADDR_HACKER_ELF_EFFECT
+    ldrb    r4,[r4]
+    strb    r4,[r1]
+    ldr     r1,=#OFFSET_NEW_SAVED_ELVES
+    add     r4,r0,r1
+    mov     r6,#0x0
+@@check_persistent_elves:
+    ldrb    r1,[r4]
+    cmp     r1,#0x0
+    beq     @@next_elf
+    ldr     r5,=#org(@persistent_cyber_elves)
+@@loop_persistent_elves:
+    ldrb    r0,[r5]
+    cmp     r0,#0x0
+    beq     @@next_elf
+    add     r5,#0x1
+    cmp     r0,r1
+    bne     @@loop_persistent_elves
+    ldr     r0,=#ADDR_ZERO_BASE
+    mov     r2,#0x1
+    bl      ROMADDR_CYBERELF_MAYBE_SPAWN
+@@next_elf:
+    add     r6,#0x1
+    cmp     r6,#0x2
+    bgt     @@set_dont_reset_elves
+    add     r4,#0x1
+    b       @@check_persistent_elves
+@@set_dont_reset_elves:
+    ldr     r0,=#ADDR_FREE_AREA
+    ldr     r1,=#OFFSET_NEW_SAVED_ELVES
+    add     r0,r0,r1
+    mov     r1,#0xFF
+    str     r1,[r0]
+@@subr_end:
+    mov     r0,#0x0
+    pop     {r4-r6}
+    pop     r1
+    bx      r1
 @script_14_BG_and_extra_args:
     push    r4,r5
     ldrb    r1,[r2,#0x2]
@@ -370,4 +456,30 @@
     pop     r0
     bx      r0
     .pool
+@retain_elf_references_on_skip:
+    push    r4,r14
+    ldr     r0,=#ADDR_FREE_AREA
+    ldr     r1,=#OFFSET_NEW_SAVED_ELVES
+    add     r0,r0,r1
+    ldr     r4,[r0]
+    mov     r1,#0x0
+    str     r1,[r0]
+    mov     r1,#0xFF
+    cmp     r4,r1
+    beq     @@subr_end
+    bl      ROMADDR_ZERO_REMOVE_CYBERELF_REFS
+@@subr_end:
+    pop     r4
+    pop     r0
+    bx      r0
+    .pool
+
+@persistent_cyber_elves:
+    .db     0x14, 0x15, 0x16, 0x17                          ; Pattern 4
+    .db     0x21, 0x22, 0x23, 0x24, 0x25, 0x26              ; Pattern 8
+    .db     0x27, 0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E  ; Pattern 9
+    .db     0x2F, 0x30, 0x31, 0x32                          ; Pattern A
+    .db     0x33, 0x34, 0x35, 0x36                          ; Pattern B
+    .db     0x0
+
     .endarea
