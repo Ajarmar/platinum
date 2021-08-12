@@ -467,6 +467,8 @@
     mov     r1,#0xFF
     cmp     r4,r1
     beq     @@subr_end
+    mov     r0,r5
+    mov     r1,#0x0
     bl      ROMADDR_ZERO_REMOVE_CYBERELF_REFS
 @@subr_end:
     pop     r4
