@@ -247,8 +247,8 @@
     strb    r0,[r1]
 @@subr_end:
     mov     r0,#0x0
-    pop     r0
-    bx      r0
+    pop     r1
+    bx      r1
     .pool
 @script_B_extra_args:
     push    {r4-r6,r14}
