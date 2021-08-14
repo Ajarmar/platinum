@@ -29,6 +29,11 @@
     .ascii "PLAT"
 
     .endarea
+
+    ; Change the sound effect that plays when the game is started
+    ; For easier verification purposes
+    .org ROMADDR_START_GAME_SOUND_EFFECT
+    mov     r0,#0x88                    ; Moero
     
     ; Set the Zero max entity count to 1
     ; This will break multiplayer but frees up a chunk of RAM that can be used (0x304 bytes)
@@ -36,8 +41,3 @@
     mov     r2,#0x1
 
     .close
-
-    ; Script entrypoint: 0x0801B6EC
-    ; Stage function entrypoint: 0x08014A5C
-    ; 0x080C41B6
-    ; Break at 0203B709
