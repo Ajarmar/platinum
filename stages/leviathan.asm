@@ -58,7 +58,7 @@
     .org org(@chkpnt_3_script)+0x4
     .dw     org(leviathan_chkpnt_3)
 
-    ; Ciel animations: speed up "teleport in" animation
+    ; Fefnir animations: speed up "teleport in" animation
     .org REG_LEVIATHAN_BOSS_INTRO_HANDLING
     .area REG_LEVIATHAN_BOSS_INTRO_HANDLING_AREA
 @leviathan_state_0:

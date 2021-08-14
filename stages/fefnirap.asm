@@ -99,7 +99,7 @@
 
     .endarea
 
-    ; Modify Ciel state subroutines in place
+    ; Modify Fefnir state subroutines in place
     .org 0x0805D018
     .dw     org(@fefnirap_intro_state_0)
     .org 0x0805D01C
