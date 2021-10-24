@@ -145,14 +145,14 @@
 
     ; Modify scripts in place
     ; Pre-boss scripts
-    .org 0x0832E3AE
-    .db     1, 3            ; Lose control: Set skippable, set checkpoint to 3
-    .org 0x0832E786
-    .db     2, 2            ; Gain control: Set not skippable, set checkpoint to 2
-    .org 0x0832E7AE
-    .db     1, 3            ; Lose control: Set skippable, set checkpoint to 3
-    .org 0x0832E876
-    .db     2, 2            ; Gain control: Set not skippable, set checkpoint to 2
+    .org 0x0832E3C6
+    .db     1, 3            ; Fully enter room (1:1): Set skippable, set checkpoint to 3
+    .org 0x0832E76F
+    .db     0x22            ; WARNING: Set not skippable, set checkpoint to 2
+    .org 0x0832E7BE
+    .db     1, 3            ; Fully enter room (1:1): Set skippable, set checkpoint to 3
+    .org 0x0832E85F
+    .db     0x22            ; WARNING: Set not skippable, set checkpoint to 2
     ; Post-boss script
     .org 0x0832E94E
     .db     1, 4            ; Fade in: Set skippable, set checkpoint to 4

@@ -107,14 +107,14 @@
 
     ; Modify scripts in place
     ; Pre-boss scripts
-    .org 0x0832DC7E
-    .db     1, 3            ; Lose control: Set skippable, set checkpoint to 3
-    .org 0x0832DD3E
-    .db     2, 2            ; Gain control: Set not skippable, set checkpoint to 2
-    .org 0x0832DD76
-    .db     1, 3            ; Lose control: Set skippable, set checkpoint to 3
-    .org 0x0832DE1E
-    .db     2, 2            ; Gain control: Set not skippable, set checkpoint to 2
+    .org 0x0832DC8E
+    .db     1, 3            ; Change music: Set skippable, set checkpoint to 3
+    .org 0x0832DD27
+    .db     0x22            ; WARNING: Set not skippable, set checkpoint to 2
+    .org 0x0832DD86
+    .db     1, 3            ; Change music: Set skippable, set checkpoint to 3
+    .org 0x0832DE07
+    .db     0x22            ; WARNING: Set not skippable, set checkpoint to 2
     ; Post-boss script
     .org 0x0832DEFE
     .db     1, 4            ; Fade in: Set skippable, set checkpoint to 4

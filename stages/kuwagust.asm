@@ -295,13 +295,13 @@
     ; Stage start script
     .org 0x08328A7E
     .db     1               ; Lose control: Set skippable
-    .org 0x08328B86
-    .db     2               ; Gain control: Set not skippable
+    .org 0x08328B77
+    .db     2               ; MISSION START: Set not skippable
     ; Pre-miniboss script
-    .org 0x08328E2E
-    .db     1, 6            ; Lose control: Set skippable, set checkpoint to 6
-    .org 0x08328F76
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
+    .org 0x08328E46
+    .db     1, 6            ; Fully enter room: Set skippable, set checkpoint to 6
+    .org 0x08328F46
+    .db     2, 3            ; Music fade out: Set not skippable, set checkpoint to 3
     ; Post-miniboss script
     .org 0x08328F9E
     .db     1, 7            ; Lose control: Set skippable, set checkpoint to 7
@@ -310,5 +310,5 @@
     ; Pre-boss script
     .org 0x083291FE
     .db     1, 8            ; Lose control: Set skippable, set checkpoint to 8
-    .org 0x083292B6
-    .db     2, 5            ; Gain control: Set not skippable, set checkpoint to 5
+    .org 0x08329297
+    .db     0x52            ; WARNING: Set not skippable, set checkpoint to 5

@@ -112,7 +112,7 @@
     b       @@subr_end
 @@chkpnt_D:
     cmp     r0,#0xD
-    bne     @@subr_end
+    bne     @@chkpnt_E
     mov     r0,r2
     add     r0,#0x10
     ldr     r1,=#org(@chkpnt_D_script)
@@ -124,6 +124,34 @@
     strb    r1,[r0]
     mov     r0,#0xF
     ldr     r1,=#ADDR_STAGE_STATE
+    strb    r0,[r1]
+    b       @@subr_end
+@@chkpnt_E:
+    cmp     r0,#0xE
+    bne     @@chkpnt_F
+    mov     r0,r2
+    add     r0,#0x10
+    ldr     r1,=#org(@chkpnt_E_script)
+    bl      ROMADDR_SET_SCRIPT_ADDRS
+    mov     r0,#0x11
+    ldr     r1,=#ADDR_STAGE_STATE
+    strb    r0,[r1]
+    mov     r0,#0xA5
+    ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
+    strb    r0,[r1]
+    b       @@subr_end
+@@chkpnt_F:
+    cmp     r0,#0xF
+    bne     @@subr_end
+    mov     r0,r2
+    add     r0,#0x10
+    ldr     r1,=#org(@chkpnt_F_script)
+    bl      ROMADDR_SET_SCRIPT_ADDRS
+    mov     r0,#0x12
+    ldr     r1,=#ADDR_STAGE_STATE
+    strb    r0,[r1]
+    mov     r0,#0xA5
+    ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
     strb    r0,[r1]
     b       @@subr_end
 @@subr_end:
@@ -150,10 +178,17 @@
 @chkpnt_B_script:
     .incbin "stages/scripts/final-script-B.bin"
 
+    ; Elpizo 1 & 2
 @chkpnt_C_script:
     .incbin "stages/scripts/final-script-C.bin"
 @chkpnt_D_script:
     .incbin "stages/scripts/final-script-D.bin"
+
+    ; Ending & credits
+@chkpnt_E_script:
+    .db 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
+@chkpnt_F_script:
+    .db 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
     
     .endarea
 
@@ -192,49 +227,49 @@
     ; Hyleg
     .org 0x0832EF6E
     .db     1, 6            ; Music change: Set skippable, set checkpoint to 6
-    .org 0x0832EFCE
-    .db     2, 1            ; Gain control: Set not skippable, set checkpoint to 1
+    .org 0x0832EFAF
+    .db     0x12            ; WARNING: Set not skippable, set checkpoint to 1
     ; Poler
     .org 0x0832F036
     .db     1, 7            ; Music change: Set skippable, set checkpoint to 7
-    .org 0x0832F09E
-    .db     2, 1            ; Gain control: Set not skippable, set checkpoint to 1
+    .org 0x0832F077
+    .db     0x12            ; WARNING: Set not skippable, set checkpoint to 1
     ; Phoenix
     .org 0x0832F106
     .db     1, 8            ; Music change: Set skippable, set checkpoint to 8
-    .org 0x0832F19E
-    .db     2, 1            ; Gain control: Set not skippable, set checkpoint to 1
+    .org 0x0832F17F
+    .db     0x12            ; WARNING: Set not skippable, set checkpoint to 1
     ; Panter
     .org 0x0832F596
     .db     1, 9            ; Music change: Set skippable, set checkpoint to 9
-    .org 0x0832F60E
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
+    .org 0x0832F5D7
+    .db     0x32            ; WARNING: Set not skippable, set checkpoint to 3
     ; BEETLE BROS
     .org 0x0832F676
     .db     1, 0xA          ; Music change: Set skippable, set checkpoint to 0xA
-    .org 0x0832F6EE
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
+    .org 0x0832F6C7
+    .db     0x32            ; WARNING: Set not skippable, set checkpoint to 3
     ; Burble
     .org 0x0832F75E
     .db     1, 0xB          ; Music change: Set skippable, set checkpoint to 0xB
-    .org 0x0832F7C6
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
+    .org 0x0832F79F
+    .db     0x32            ; WARNING: Set not skippable, set checkpoint to 3
     ; TK-31
-    .org 0x0832FB7E
-    .db     1, 0xC          ; Lose control: Set skippable, set checkpoint to 0xC
+    .org 0x0832FB8E
+    .db     1, 0xC          ; Fade out music: Set skippable, set checkpoint to 0xC
     .org 0x0833015E
     .db     0x10            ; Fix garbled cutscene art
-    .org 0x0833022E
-    .db     2, 5            ; Gain control: Set not skippable, set checkpoint to 5
+    .org 0x0833020F
+    .db     0x52            ; WARNING: Set not skippable, set checkpoint to 5
     .org 0x0833024E
     .db     1, 0xC          ; Lose control: Set skippable, set checkpoint to 0xC
-    .org 0x083302DE
-    .db     2, 5            ; Gain control: Set not skippable, set checkpoint to 5
+    .org 0x083302BF
+    .db     0x52            ; WARNING: Set not skippable, set checkpoint to 5
     ; Elpizo phase 2
     .org 0x08330316
     .db     1, 0xD          ; Lose control: Set skippable, set checkpoint to 0xD
-    .org 0x08330436
-    .db     2, 5            ; Gain control: Set not skippable, set checkpoint to 5
+    .org 0x0833041F
+    .db     0x52            ; WARNING: Set not skippable, set checkpoint to 5
     ; After Elpizo
     .org 0x08330826
     .db     0x10            ; Fix garbled cutscene art

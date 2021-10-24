@@ -132,26 +132,26 @@
     ; Stage start scripts
     .org 0x083294DE
     .db     1               ; Lose control: Set skippable
-    .org 0x08329546
-    .db     2               ; Gain control: Set not skippable
+    .org 0x08329537
+    .db     2               ; MISSION START: Set not skippable
     ; Pre-boss scripts
     ; 7
     .org 0x08329786
     .db     1, 7            ; Lose control: Set skippable, set checkpoint to 7
-    .org 0x083298C6
-    .db     2, 2            ; Gain control: Set not skippable, set checkpoint to 2
+    .org 0x0832987F
+    .db     0x22            ; WARNING: Set not skippable, set checkpoint to 2
     ; 8
     .org 0x083298E6
     .db     1, 8            ; Lose control: Set skippable, set checkpoint to 8
-    .org 0x08329A26
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
+    .org 0x083299DF
+    .db     0x32            ; WARNING: Set not skippable, set checkpoint to 3
     ; 9
     .org 0x08329A46
     .db     1, 9            ; Lose control: Set skippable, set checkpoint to 9
-    .org 0x08329B86
-    .db     2, 4            ; Gain control: Set not skippable, set checkpoint to 4
+    .org 0x08329B3F
+    .db     0x42            ; WARNING: Set not skippable, set checkpoint to 4
     ; A
     .org 0x08329BA6
     .db     1, 0xA          ; Lose control: Set skippable, set checkpoint to 0xA
-    .org 0x08329CE6
-    .db     2, 5            ; Gain control: Set not skippable, set checkpoint to 5
+    .org 0x08329C9F
+    .db     0x52            ; WARNING: Set not skippable, set checkpoint to 5

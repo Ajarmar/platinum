@@ -4,6 +4,9 @@
     .org 0x08014AAC
     nop
     nop
+
+    .org 0x08014DC6
+    bl      @retain_hp_cutting_elf_on_skip
     
     ; Change to existing code.
     ; Normally checks a value that is set if you have a save file,
@@ -18,6 +21,11 @@
     beq     #0x08014EDE
     nop
     .endarea
+
+    ; End of script 1: branch to new subroutine to check 2nd/3rd arg
+    ; ONLY if first arg == 1 and operand > 0
+    .org 0x0801BCCA
+    bl      @script_1_extra_args
 
     ; End of script 9: branch to new subroutine to check 2nd/3rd arg
     .org 0x0801C254
@@ -38,9 +46,19 @@
     bl      @script_14_BG_and_extra_args
     bx      r1
 
+    .org 0x0801C91E
+    bl      @script_16_extra_args
+    bx      r1
+
     .org 0x0801CABC
     bl      @script_18_extra_args
     bx      r1
+
+    ; End of script 1A: branch to new subroutine to check 2nd/3rd arg
+    ; ONLY if first arg == 9
+    .org 0x0801CC22
+    bl      @script_1A_extra_args
+    b       0x0801CC3C
 
     .org ROMADDR_RESPAWN_HEALTH_HOOK
     bl      @set_respawn_health
@@ -90,7 +108,29 @@
     mov     r2,#0x20
     and     r2,r6
     cmp     r2,#0x0
-    bne     @@not_intro_subr_end
+    beq     @@business_as_usual
+    ldr     r2,=#ROMADDR_ENDING_SKIP_POINT
+    ldr     r1,=#ADDR_STAGE_SCRIPT
+    ldr     r1,[r1]
+    cmp     r1,r2
+    blt     @@not_intro_subr_end            ; Make sure you can't skip before results screen
+    ldr     r2,=#ADDR_STAGE_STATE
+    ldrb    r2,[r2]
+    cmp     r2,#0x11
+    beq     @@ending_part_1
+    cmp     r2,#0x12
+    beq     @@ending_part_2
+    b       @@not_intro_subr_end
+@@ending_part_1:
+    ldr     r2,=#ADDR_CHECKPOINT
+    mov     r1,#0xE
+    strb    r1,[r2]
+    b       @@business_as_usual
+@@ending_part_2:
+    ldr     r2,=#ADDR_CHECKPOINT
+    mov     r1,#0xF
+    strb    r1,[r2]
+@@business_as_usual:
     ldr     r2,=#ADDR_FREE_AREA
     ldr     r1,=#OFFSET_NEW_PAUSE_PREVENTION
     add     r2,r2,r1
@@ -169,6 +209,10 @@
     add     r7,r6,r7
     ldr     r0,=#ADDR_HACKER_ELF_EFFECT
     ldrb    r0,[r0]
+    mov     r4,#0xFB
+    and     r0,r4                       ; Clear timed effects
+    ldrb    r4,[r7]
+    orr     r0,r4
     strb    r0,[r7]
     ldr     r0,=#ADDR_ZERO_BASE
     mov     r4,0xAA
@@ -196,6 +240,44 @@
     pop     {r4-r7}
     pop     r3
     bx      r3
+    .pool
+
+@script_1_extra_args:
+    push    r4
+    sub     r0,#0x1
+    str     r0,[r1]
+    ldrb    r1,[r2,#0x2]
+    mov     r3,#0xF
+    and     r1,r3
+    cmp     r1,#0x1
+    bne     @@check_2
+    ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
+    ldrb    r3,[r1]
+    mov     r4,#0x80
+    orr     r3,r4
+    strb    r3,[r1]
+    b       @@arg_3
+@@check_2:
+    cmp     r1,#0x2
+    bne     @@arg_3
+    ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
+    ldrb    r3,[r1]
+    mov     r4,#0x7F
+    and     r3,r4
+    strb    r3,[r1]
+@@arg_3:
+    ldrb    r1,[r2,#0x3]
+    cmp     r1,#0x0
+    beq     @@subr_end
+    ldr     r3,=#ADDR_CHECKPOINT
+    cmp     r1,#0xFF
+    bne     @@store_the_value
+    mov     r1,#0x0
+@@store_the_value:
+    strb    r1,[r3]
+@@subr_end:
+    pop     r4
+    bx      r14
     .pool
 @script_9_extra_args:
     push    r14
@@ -264,11 +346,12 @@
     ldr     r1,=#OFFSET_NEW_SAVED_HACKER_EFFECT
     add     r4,r0,r1
     ldr     r1,=#ADDR_HACKER_ELF_EFFECT
-    ldrb    r4,[r4]
-    strb    r4,[r1]
+    ldrb    r6,[r4]
+    strb    r6,[r1]
+    mov     r6,#0x0
+    strb    r6,[r4]
     ldr     r1,=#OFFSET_NEW_SAVED_ELVES
     add     r4,r0,r1
-    mov     r6,#0x0
 @@check_persistent_elves:
     ldrb    r1,[r4]
     cmp     r1,#0x0
@@ -354,6 +437,51 @@
     pop     r1
     bx      r14
     .pool
+@script_16_extra_args:
+    push    {r4-r6}
+    ldr     r2,[r4,#0xC]
+    ldrb    r1,[r2,#0x3]
+    mov     r3,#0xF
+    and     r1,r3
+    cmp     r1,#0x1
+    bne     @@check_2
+    ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
+    ldrb    r3,[r1]
+    mov     r4,#0x80
+    orr     r3,r4
+    strb    r3,[r1]
+    b       @@arg_3_upper
+@@check_2:
+    cmp     r1,#0x2
+    bne     @@arg_3_upper
+    ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
+    ldrb    r3,[r1]
+    mov     r4,#0x7F
+    and     r3,r4
+    strb    r3,[r1]
+@@arg_3_upper:
+    ldrb    r1,[r2,#0x3]
+    lsr     r1,#0x4
+    cmp     r1,#0x0
+    beq     @@subr_end
+    ldr     r3,=#ADDR_CHECKPOINT
+    cmp     r1,#0xFF
+    bne     @@store_the_value
+    mov     r1,#0x0
+@@store_the_value:
+    strb    r1,[r3]
+@@subr_end:
+    ldr     r4,=#ADDR_FREE_AREA
+    ldr     r5,=#OFFSET_NEW_SAVED_HACKER_EFFECT
+    add     r4,r4,r5
+    ldrb    r5,[r4]
+    mov     r6,#0xFD
+    and     r5,r6
+    strb    r5,[r4]
+    pop     {r4-r6}
+    pop     r1
+    bx      r14
+    .pool
 @script_18_extra_args:
     ldr     r4,=#ADDR_SCRIPT_BASE
     ldr     r5,[r4,#0xC]
@@ -396,6 +524,44 @@
 @@subr_end:
     pop     r4,r5
     pop     r1
+    bx      r14
+    .pool
+@script_1A_extra_args:
+    push    r4
+    ldr     r2,[r1,#0xC]
+    add     r2,#0x8
+    ldrb    r1,[r2,#0x2]
+    mov     r3,#0xF
+    and     r1,r3
+    cmp     r1,#0x1
+    bne     @@check_2
+    ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
+    ldrb    r3,[r1]
+    mov     r4,#0x80
+    orr     r3,r4
+    strb    r3,[r1]
+    b       @@arg_3
+@@check_2:
+    cmp     r1,#0x2
+    bne     @@arg_3
+    ldr     r1,=#ADDR_CUTSCENE_SKIPPABLE
+    ldrb    r3,[r1]
+    mov     r4,#0x7F
+    and     r3,r4
+    strb    r3,[r1]
+@@arg_3:
+    ldrb    r1,[r2,#0x3]
+    cmp     r1,#0x0
+    beq     @@subr_end
+    ldr     r3,=#ADDR_CHECKPOINT
+    cmp     r1,#0xFF
+    bne     @@store_the_value
+    mov     r1,#0x0
+@@store_the_value:
+    strb    r1,[r3]
+@@subr_end:
+    mov     r0,#0x1
+    pop     r4
     bx      r14
     .pool
 @set_respawn_health:
@@ -474,6 +640,20 @@
     pop     r4
     pop     r0
     bx      r0
+    .pool
+@retain_hp_cutting_elf_on_skip:
+    push    {r4-r6}
+    ldr     r4,=#ADDR_FREE_AREA
+    ldr     r5,=#OFFSET_NEW_SAVED_HACKER_EFFECT
+    add     r4,r4,r5
+    ldrb    r5,[r4]
+    mov     r6,#0x2
+    orr     r5,r6
+    strb    r5,[r4]
+    mov     r1,#0xFD
+    mov     r0,r1
+    pop     {r4-r6}
+    bx      r14
     .pool
 
 @persistent_cyber_elves:

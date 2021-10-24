@@ -57,10 +57,10 @@
     ; Stage start scripts
     .org 0x0832A17A
     .db     1               ; Lose control: Set skippable
-    .org 0x0832A1E2
-    .db     2               ; Gain control: Set not skippable
+    .org 0x0832A1D3
+    .db     2               ; MISSION START: Set not skippable
     ; Pre-boss scripts
     .org 0x0832A3BA
     .db     1, 4            ; Lose control: Set skippable, set checkpoint to 4
-    .org 0x0832A4BA
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
+    .org 0x0832A48B
+    .db     0x32            ; WARNING: Set not skippable, set checkpoint to 3

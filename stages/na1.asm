@@ -45,7 +45,7 @@
 
     ; Modify scripts in place
     ; Post-boss script
-    .org 0x0832CF7A
-    .db     1, 3            ; Lose control: Set skippable, set checkpoint to 3
+    .org 0x0832CFCA
+    .db     1, 3            ; Change music: Set skippable, set checkpoint to 3
     .org 0x0832D1D2
     .db     2, 2            ; Fade out: Set not skippable, set checkpoint to 2

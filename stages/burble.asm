@@ -141,19 +141,19 @@
     ; Stage start script
     .org 0x0832A8B6
     .db     1               ; Lose control: Set skippable
-    .org 0x0832AA2E
-    .db     2               ; Gain control: Set not skippable
+    .org 0x0832AA1F
+    .db     2               ; MISSION START: Set not skippable
     ; Pre-boss script
-    .org 0x0832ABFE
-    .db     1, 4            ; Lose control: Set skippable, set checkpoint to 4
-    .org 0x0832AD1E
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
-    .org 0x0832AD46
-    .db     1, 4            ; Lose control: Set skippable, set checkpoint to 4
-    .org 0x0832ADA6
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
+    .org 0x0832AC1E
+    .db     1, 4            ; Fully enter room (1:1): Set skippable, set checkpoint to 4
+    .org 0x0832AD0F
+    .db     0x32            ; WARNING: Set not skippable, set checkpoint to 3
+    .org 0x0832AD56
+    .db     1, 4            ; Fully enter room (9:2): Set skippable, set checkpoint to 4
+    .org 0x0832AD97
+    .db     0x32            ; WARNING: Set not skippable, set checkpoint to 3
     ; Post-boss script
-    .org 0x0832AEDE
-    .db     1, 5            ; Lose control: Set skippable, set checkpoint to 5
+    .org 0x0832AEF6
+    .db     1, 5            ; Change music: Set skippable, set checkpoint to 5
     .org 0x0832B03E
     .db     2, 3            ; Fade out: Set not skippable, set checkpoint to 3

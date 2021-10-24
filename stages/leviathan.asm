@@ -58,7 +58,7 @@
     .org org(@chkpnt_3_script)+0x4
     .dw     org(leviathan_chkpnt_3)
 
-    ; Fefnir animations: speed up "teleport in" animation
+    ; Leviathan animations: speed up "teleport in" animation
     .org REG_LEVIATHAN_BOSS_INTRO_HANDLING
     .area REG_LEVIATHAN_BOSS_INTRO_HANDLING_AREA
 @leviathan_state_0:
@@ -114,13 +114,13 @@
     ; Stage start script
     .org 0x0832B256
     .db     1               ; Lose control: Set skippable
-    .org 0x0832B2BE
-    .db     2               ; Gain control: Set not skippable
+    .org 0x0832B2AF
+    .db     2               ; MISSION START: Set not skippable
     ; Pre-boss script
-    .org 0x0832B3A6
-    .db     1, 3            ; Lose control: Set skippable, set checkpoint to 3
-    .org 0x0832B45E
-    .db     2, 2            ; Gain control: Set not skippable, set checkpoint to 2
+    .org 0x0832B3B6
+    .db     1, 3            ; Fully enter room (1:1): Set skippable, set checkpoint to 3
+    .org 0x0832B437
+    .db     0x22            ; WARNING: Set not skippable, set checkpoint to 2
     ; Post-boss script
     .org 0x0832B496
     .db     1, 4            ; Lose control: Set skippable, set checkpoint to 5
@@ -130,6 +130,3 @@
     ; Change "water fillup" speed depending on argument
     .org 0x0800EB08
     add     r0,r0,r1
-
-    ; x: FF 8D 21 00
-    ; y: FF 0F 08 00

@@ -132,12 +132,12 @@
     ; Pre-boss scripts
     .org 0x08326AB6
     .db     1, 4            ; Lose control: Set skippable, checkpoint 4
-    .org 0x08326CCE
-    .db     2, 3            ; Gain control: Set not skippable, checkpoint 3
+    .org 0x08326CBF
+    .db     0x32            ; WARNING: Set not skippable, checkpoint 3
     .org 0x083277D6
     .db     1, 4            ; Lose control: Set skippable, checkpoint 4
-    .org 0x0832789E
-    .db     2, 3            ; Gain control: Set not skippable, checkpoint 3
+    .org 0x08327887
+    .db     0x32            ; WARNING: Set not skippable, checkpoint 3
     ; Harpuia cutscene
     .org 0x08326D8E
     .db     1, 5            ; Fade in: Set skippable, checkpoint 5

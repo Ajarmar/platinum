@@ -1,5 +1,5 @@
     .gba
-    .open "z2.gba", "z2-platinum.gba", 0x08000000
+    .open "z2prac.gba", "z2prac-platinum.gba", 0x08000000
     .include "constants.asm"
     .include "regions.asm"
     .include "new-checkpoints.asm"
@@ -39,5 +39,9 @@
     ; This will break multiplayer but frees up a chunk of RAM that can be used (0x304 bytes)
     .org ROMADDR_SET_ZERO_ENTITY_MAX_LOCATION
     mov     r2,#0x1
+
+    ; Make hard mode available regardless of if you have a save file
+    .org ROMADDR_SET_HARD_MODE_AVAILABLE_FLAG
+    nop
 
     .close

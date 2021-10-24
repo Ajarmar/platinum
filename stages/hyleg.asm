@@ -101,17 +101,17 @@
     ; Stage start scripts
     .org 0x08327A3E
     .db     1               ; Lose control: Set skippable
-    .org 0x08327B16
-    .db     2               ; Gain control: Set not skippable
+    .org 0x08327B07
+    .db     2               ; MISSION START: Set not skippable
     ; Pre-boss scripts
-    .org 0x08327CCE
-    .db     1, 4            ; Lose control: Set skippable, set checkpoint to 4
-    .org 0x08327E6E
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
-    .org 0x08327E8E
-    .db     1, 4            ; Lose control: Set skippable, set checkpoint to 4
-    .org 0x08327F86
-    .db     2, 3            ; Gain control: Set not skippable, set checkpoint to 3
+    .org 0x08327CEE
+    .db     1, 4            ; Fully enter room (1:1): Set skippable, set checkpoint to 4
+    .org 0x08327E2F
+    .db     0x32            ; WARNING: Set not skippable, set checkpoint to 3
+    .org 0x08327E9E
+    .db     1, 4            ; Fully enter room (9:2): Set skippable, set checkpoint to 4
+    .org 0x08327F47
+    .db     0x32            ; WARNING: Set not skippable, set checkpoint to 3
     ; Post-boss script
     .org 0x0832805E
     .db     1, 5            ; Fade in: Set skippable, set checkpoint to 5
