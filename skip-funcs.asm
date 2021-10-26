@@ -209,8 +209,6 @@
     add     r7,r6,r7
     ldr     r0,=#ADDR_HACKER_ELF_EFFECT
     ldrb    r0,[r0]
-    mov     r4,#0xFB
-    and     r0,r4                       ; Clear timed effects
     ldrb    r4,[r7]
     orr     r0,r4
     strb    r0,[r7]
