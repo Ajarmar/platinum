@@ -447,7 +447,7 @@
     ; Ciel cutscene
     .org 0x08330D22
     .db     0x1, 0xA        ; Lose control: Set skippable, checkpoint 0xA
-    .org 0x08330EB2
+    .org 0x08330E82
     .db     0x2, 0x0        ; Gain control: Set not skippable, checkpoint 0
     ; Elpizo cutscene w/ the troops
     .org 0x08330EC2
@@ -457,7 +457,7 @@
     ; Elpizo goes to Neo Arcadia against his better judgment
     .org 0x08331302
     .db     0x1, 0xC        ; Lose control: Set skippable, checkpoint 0xC
-    .org 0x083317AA
+    .org 0x083316BA
     .db     0x2, 0x3        ; Fade out: Set not skippable, checkpoint 3
     ; Elpizo is brought back to the Resistance Base after getting demolished in Neo Arcadia
     .org 0x08331812
