@@ -1,5 +1,5 @@
     .gba
-    .open "z2prac.gba", "z2prac-platinum.gba", 0x08000000
+    .open "z2.gba", "z2-platinum.gba", 0x08000000
     .include "constants.asm"
     .include "regions.asm"
     .include "new-checkpoints.asm"
@@ -34,6 +34,7 @@
     ; For easier verification purposes
     .org ROMADDR_START_GAME_SOUND_EFFECT
     mov     r0,#0x88                    ; Moero
+    bl      reset_health_play_sound_effect  
     
     ; Set the Zero max entity count to 1
     ; This will break multiplayer but frees up a chunk of RAM that can be used (0x304 bytes)

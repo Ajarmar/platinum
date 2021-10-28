@@ -574,6 +574,14 @@
     lsl     r2,r2,#0x1
     bx      r14
     .pool
+reset_health_play_sound_effect:
+    push    r14
+    bl      ROMADDR_PLAY_SOUND_EFFECT
+    ldr     r1,=#ADDR_ZERO_CURRENT_HEALTH
+    mov     r0,#0x0
+    strb    r0,[r1]
+    pop     r0
+    bx      r0
 @retain_rng_on_skip:
     ldr     r2,=#ADDR_STAGE_SCRIPT
     ldrb    r2,[r2]
