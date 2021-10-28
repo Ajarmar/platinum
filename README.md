@@ -9,6 +9,7 @@ This hack is meant to put Zero 2 more in line with Zero 3 and Zero 4. The kinds 
 - Post-boss cutscenes that aren't just regular explosions
 - Some mid-stage cutscenes
 - Most Resistance Base cutscenes
+- Ending cutscene and credits
 
 The following kinds of cutscenes are **not** skippable:
 
