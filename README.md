@@ -1,6 +1,6 @@
 # Rockman Zero 2 Platinum (cutscene skip hack)
 
-# This hack is currently in pre-release. See [the release page](https://github.com/Ajarmar/platinum/releases/tag/v1.0-beta) for more information.
+## [Download the IPS file here.](https://github.com/Ajarmar/platinum/releases/tag/v1.0)
 
 This hack is meant to put Zero 2 more in line with Zero 3 and Zero 4. The kinds of cutscenes that typically are skippable in those games have been made to be skippable in this game. This includes:
 
@@ -17,6 +17,8 @@ The following kinds of cutscenes are **not** skippable:
 - Pre-boss cutscenes without any text boxes
 - Midboss cutscenes (except for Ciel cutscenes in Kuwagust's stage)
 - Cutscenes where Zero's position *after* the cutscene can vary significantly cannot be skipped (for example, when speaking to Elpizo and Cerveau at the start).
+
+[Full list of skippable cutscenes](docs/skippable-cutscenes.md)
 
 Some more information:
 
