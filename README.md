@@ -1,6 +1,6 @@
 # Rockman Zero 2 Platinum (cutscene skip hack)
 
-## [Download the IPS file here.](https://github.com/Ajarmar/platinum/releases/tag/v1.0)
+## [Download the IPS file here.](https://github.com/Ajarmar/platinum/releases/tag/v1.1)
 
 This hack is meant to put Zero 2 more in line with Zero 3 and Zero 4. The kinds of cutscenes that typically are skippable in those games have been made to be skippable in this game. This includes:
 

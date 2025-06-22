@@ -33,7 +33,7 @@
     ; Change the sound effect that plays when the game is started
     ; For easier verification purposes
     .org ROMADDR_START_GAME_SOUND_EFFECT
-    mov     r0,#0x88                    ; Moero
+    mov     r0,#0x89                    ; Muda
     bl      reset_health_play_sound_effect  
     
     ; Set the Zero max entity count to 1

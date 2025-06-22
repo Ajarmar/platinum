@@ -1,5 +1,11 @@
 # Changelog
 
+## 2025-06-22: v1.1
+
+- Changed game start sound effect to **Phoenix Magnion's "Muda"**
+    - This acts as a version signifier; it will be changed again for any future releases.
+- Fixed a bug where using a Cyber Elf that halves the health of a boss during a boss fight, and then going into another boss fight and skipping the boss cutscene would also halve the health of the second boss.
+
 ## 2021-10-28: v1.0
 
 - Changed game start sound effect to **Phoenix Magnion's "Moero"**
