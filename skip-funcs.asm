@@ -649,6 +649,10 @@ reset_health_play_sound_effect:
     .pool
 @retain_hp_cutting_elf_on_skip:
     push    {r4-r6}
+    ldr     r4,=#ADDR_STAGE_SCRIPT_ACTIVE
+    ldrb    r4,[r4]
+    cmp     r4,#0x0
+    beq     @@subr_end
     ldr     r4,=#ADDR_FREE_AREA
     ldr     r5,=#OFFSET_NEW_SAVED_HACKER_EFFECT
     add     r4,r4,r5
@@ -656,6 +660,7 @@ reset_health_play_sound_effect:
     mov     r6,#0x2
     orr     r5,r6
     strb    r5,[r4]
+@@subr_end:
     mov     r1,#0xFD
     mov     r0,r1
     pop     {r4-r6}
